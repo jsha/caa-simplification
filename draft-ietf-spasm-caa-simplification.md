@@ -48,7 +48,7 @@ author:
    unintended certificate mis-issue.
 
    Like the TLSA record defined in DNS-Based Authentication of Named
-   Entities (DANE) [RFC6698], CAA records are used as a part of a
+   Entities (DANE) {{!RFC6698}}, CAA records are used as a part of a
    mechanism for checking PKIX certificate data.  The distinction
    between the two specifications is that CAA records specify an
    authorization control to be performed by a certificate issuer before
@@ -59,7 +59,7 @@ author:
 
 
 
- 
+
 
 
    Conformance with a published CAA record is a necessary but not
@@ -98,7 +98,7 @@ author:
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in [RFC2119].
+   document are to be interpreted as described in {{!RFC2119}}.
 
 ##  Defined Terms
 
@@ -108,7 +108,7 @@ author:
       denies a specific set of permissions to a specific group of
       entities.
 
-   Certificate:  An X.509 Certificate, as specified in [RFC5280].
+   Certificate:  An X.509 Certificate, as specified in {{!RFC5280}}.
 
    Certificate Evaluator:  A party other than a relying party that
       evaluates the trustworthiness of certificates issued by
@@ -119,25 +119,25 @@ author:
 
    Certificate Policy (CP):  Specifies the criteria that a Certification
       Authority undertakes to meet in its issue of certificates.  See
-      [RFC3647].
+      {{!RFC3647}}.
 
    Certification Practices Statement (CPS):  Specifies the means by
       which the criteria of the Certificate Policy are met.  In most
       cases, this will be the document against which the operations of
-      the Certification Authority are audited.  See [RFC3647].
+      the Certification Authority are audited.  See {{!RFC3647}}.
 
    Domain:  A DNS Domain Name.
 
-   Domain Name:  A DNS Domain Name as specified in [STD13].
+   Domain Name:  A DNS Domain Name as specified in \[STD13].
 
    Domain Name System (DNS):  The Internet naming system specified in
-      [STD13].
+      \[STD13].
 
    DNS Security (DNSSEC):  Extensions to the DNS that provide
-      authentication services as specified in [RFC4033], [RFC4034],
-      [RFC4035], [RFC5155], and revisions.
+      authentication services as specified in RFC4033, RFC4034,
+      RFC4035, RFC5155, and revisions.
 
-   Issuer:  An entity that issues certificates.  See [RFC5280].
+   Issuer:  An entity that issues certificates.  See {{!RFC5280}}.
 
    Property:  The tag-value portion of a CAA Resource Record.
 
@@ -146,13 +146,13 @@ author:
    Property Value:  The value portion of a CAA Resource Record.
 
    Public Key Infrastructure X.509 (PKIX):  Standards and specifications
-      issued by the IETF that apply the [X.509] certificate standards
+      issued by the IETF that apply the \[X.509] certificate standards
       specified by the ITU to Internet applications as specified in
-      [RFC5280] and related documents.
+      {{!RFC5280}} and related documents.
 
    Resource Record (RR):  A particular entry in the DNS including the
       owner name, class, type, time to live, and data, as defined in
-      [STD13] and [RFC2181].
+      \[STD13] and {{!RFC2181}}.
 
    Resource Record Set (RRSet):  A set of Resource Records or a
       particular owner name, class, and type.  The time to live on all
@@ -161,7 +161,7 @@ author:
 
    Relying Party:  A party that makes use of an application whose
       operation depends on use of a certificate for making a security
-      decision.  See [RFC5280].
+      decision.  See {{!RFC5280}}.
 
    Relying Application:  An application whose operation depends on use
       of a certificate for making a security decision.
@@ -183,26 +183,26 @@ author:
 
    The following property tags are defined:
 
-   issue <Issuer Domain Name> [; <name>=<value> ]* :  The issue property
-      entry authorizes the holder of the domain name <Issuer Domain
+   issue &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issue property
+      entry authorizes the holder of the domain name &lt;Issuer Domain
       Name> or a party acting under the explicit authority of the holder
       of that domain name to issue certificates for the domain in which
       the property is published.
 
-   issuewild <Issuer Domain Name> [; <name>=<value> ]* :  The issuewild
-      property entry authorizes the holder of the domain name <Issuer
+   issuewild &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issuewild
+      property entry authorizes the holder of the domain name &lt;Issuer
       Domain Name> or a party acting under the explicit authority of the
       holder of that domain name to issue wildcard certificates for the
       domain in which the property is published.
 
-   iodef <URL> :  Specifies a URL to which an issuer MAY report
+   iodef &lt;URL> :  Specifies a URL to which an issuer MAY report
       certificate issue requests that are inconsistent with the issuer's
       Certification Practices or Certificate Policy, or that a
       Certificate Evaluator may use to report observation of a possible
       policy violation.  The Incident Object Description Exchange Format
-      (IODEF) format is used [RFC5070].
+      (IODEF) format is used {{!RFC5070}}.
 
-   The following example is a DNS zone file (see [RFC1035]) that informs
+   The following example is a DNS zone file (see {{!RFC1035}}) that informs
    CAs that certificates are not to be issued except by the holder of
    the domain name 'ca.example.net' or an authorized agent thereof.
    This policy applies to all subordinate domains under example.com.
@@ -214,7 +214,7 @@ author:
    certificate issuer MAY report invalid certificate requests to that
    address.  In the following example, the domain name holder specifies
    that reports may be made by means of email with the IODEF data as an
-   attachment, a Web service [RFC6546], or both:
+   attachment, a Web service {{!RFC6546}}, or both:
 
    $ORIGIN example.com
    .       CAA 0 issue "ca.example.net"
@@ -258,7 +258,7 @@ author:
 
 
 
- 
+
 
 
    Note that the above restrictions only apply at certificate issue.
@@ -352,14 +352,14 @@ author:
    The CAA data field contains one property entry.  A property entry
    consists of the following data fields:
 
-   +0-1-2-3-4-5-6-7-|0-1-2-3-4-5-6-7-|
-   | Flags          | Tag Length = n |
-   +----------------+----------------+...+---------------+
-   | Tag char 0     | Tag char 1     |...| Tag char n-1  |
-   +----------------+----------------+...+---------------+
-   +----------------+----------------+.....+----------------+
-   | Value byte 0   | Value byte 1   |.....| Value byte m-1 |
-   +----------------+----------------+.....+----------------+
+       +0-1-2-3-4-5-6-7-|0-1-2-3-4-5-6-7-|
+       | Flags          | Tag Length = n |
+       +----------------+----------------+...+---------------+
+       | Tag char 0     | Tag char 1     |...| Tag char n-1  |
+       +----------------+----------------+...+---------------+
+       +----------------+----------------+.....+----------------+
+       | Value byte 0   | Value byte 1   |.....| Value byte m-1 |
+       +----------------+----------------+.....+----------------+
 
    Where n is the length specified in the Tag length field and m is the
    remaining octets in the Value field (m = d - n - 2) where d is the
@@ -379,7 +379,7 @@ author:
          unsupported property tag that for which the issuer critical
          flag is set.
 
-      Note that according to the conventions set out in [RFC1035], bit 0
+      Note that according to the conventions set out in {{!RFC1035}}, bit 0
       is the Most Significant Bit and bit 7 is the Least Significant
       Bit. Thus, the Flags value 1 means that bit 7 is set while a value
       of 128 means that bit 0 is set according to this convention.
@@ -417,7 +417,7 @@ author:
 
    The canonical presentation format of the CAA record is:
 
-   CAA <flags> <tag> <value>
+   CAA &lt;flags> &lt;tag> &lt;value>
 
    Where:
 
@@ -426,8 +426,8 @@ author:
    Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
       case.
 
-   Value:  Is the <character-string> encoding of the value field as
-      specified in [RFC1035], Section 5.1.
+   Value:  Is the &lt;character-string> encoding of the value field as
+      specified in {{!RFC1035}}, Section 5.1.
 
 ##  CAA issue Property
 
@@ -436,9 +436,9 @@ author:
    authorization to specific certificate issuers.
 
    The CAA issue property value has the following sub-syntax (specified
-   in ABNF as per [RFC5234]).
+   in ABNF as per {{!RFC5234}}).
 
-   issuevalue  = space [domain] space [";" *(space parameter) space]
+   issuevalue  = space \[domain] space \[";" *(space parameter) space]
 
    domain = label *("." label)
    label = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
@@ -514,7 +514,7 @@ author:
    that violate the security policy of the issuer or the domain name
    holder.
 
-   The Incident Object Description Exchange Format (IODEF) [RFC5070] is
+   The Incident Object Description Exchange Format (IODEF) {{!RFC5070}} is
    used to present the incident report in machine-readable form.
 
    The iodef property takes a URL as its parameter.  The URL scheme type
@@ -527,7 +527,7 @@ author:
 
    http or https:  The IODEF report is submitted as a Web service
       request to the HTTP address specified using the protocol specified
-      in [RFC6546].
+      in {{!RFC6546}}.
 
 #  Security Considerations
 
@@ -538,7 +538,7 @@ author:
 
    The objective of the CAA record properties described in this document
    is to reduce the risk of certificate mis-issue rather than avoid
-   reliance on a certificate that has been mis-issued.  DANE [RFC6698]
+   reliance on a certificate that has been mis-issued.  DANE {{!RFC6698}}
    describes a mechanism for avoiding reliance on mis-issued
    certificates.
 
@@ -614,12 +614,12 @@ author:
    IANA has assigned Resource Record Type 257 for the CAA Resource
    Record Type and added the line depicted below to the registry named
    "Resource Record (RR) TYPEs" and QTYPEs as defined in BCP 42
-   [RFC6195] and located at
+   {{!RFC6195}} and located at
    http://www.iana.org/assignments/dns-parameters.
 
- RR Name      Value and meaning                                Reference
- -----------  ---------------------------------------------    ---------
- CAA          257 Certification Authority Restriction          [RFC6844]
+| RR Name    | Value and meaning                            |  Reference
+|:-----------|:---------------------------------------------|:---------
+| CAA        | 257 Certification Authority Restriction      |  {{!RFC6844}}
 
 ##  Certification Authority Restriction Properties
 
@@ -627,22 +627,22 @@ author:
    registry with the following initial values:
 
 
-   Tag          Meaning                                Reference
-   -----------  -------------------------------------- ---------
-   issue        Authorization Entry by Domain          [RFC6844]
-   issuewild    Authorization Entry by Wildcard Domain [RFC6844]
-   iodef        Report incident by IODEF report        [RFC6844]
-   auth         Reserved                               [HB2011]
-   path         Reserved                               [HB2011]
-   policy       Reserved                               [HB2011]
+| Tag        | Meaning                               | Reference
+|:-----------|:--------------------------------------|:---------
+| issue      | Authorization Entry by Domain         | {{!RFC6844}}
+| issuewild  | Authorization Entry by Wildcard Domain| {{!RFC6844}}
+| iodef      | Report incident by IODEF report       | {{!RFC6844}}
+| auth       | Reserved                              | \[HB2011]
+| path       | Reserved                              | \[HB2011]
+| policy     | Reserved                              | \[HB2011]
 
 
-   Although [HB2011] has expired, deployed clients implement the CAA
+   Although \[HB2011] has expired, deployed clients implement the CAA
    properties specified in the document and reuse of these property tags
    for a different purpose could cause unexpected behavior.
 
    Addition of tag identifiers requires a public specification and
-   Expert Review as set out in [RFC6195], Section 3.1.1.
+   Expert Review as set out in {{!RFC6195}}, Section 3.1.1.
 
    The tag space is designed to be sufficiently large that exhausting
    the possible tag space need not be a concern.  The scope of Expert
@@ -656,13 +656,13 @@ author:
    registry with the following initial values:
 
 
-             Flag         Meaning                            Reference
-   -----------  ---------------------------------- ---------
-   0            Issuer Critical Flag               [RFC6844]
-   1-7          Reserved>                          [RFC6844]
+   | Flag       | Meaning                           | Reference
+   |:-----------|:----------------------------------|:---------
+   | 0          | Issuer Critical Flag              | {{!RFC6844}}
+   | 1-7        | Reserved>                         | {{!RFC6844}}
 
    Assignment of new flags follows the RFC Required policy set out in
-   [RFC5226], Section 4.1.
+   {{!RFC5226}}, Section 4.1.
 
 
 #  Acknowledgements
