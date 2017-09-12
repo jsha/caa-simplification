@@ -1,2 +1,4 @@
 # Vim swap files
 *.sw?
+lib
+draft-ietf-spasm-caa-simplification.xml
