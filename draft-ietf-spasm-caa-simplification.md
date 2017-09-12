@@ -19,6 +19,11 @@ author:
     name: Rob Stradling
     org: Comodo Group, Inc
     email: rob.stradling@comodo.com
+ -
+    ins: J. Hoffman-Andrews
+    name: Jacob Hoffman-Andrews
+    org: Let's Encrypt
+    email: jsha@letsencrypt.org
 
 
 --- abstract
