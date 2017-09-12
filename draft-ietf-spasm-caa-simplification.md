@@ -3,7 +3,7 @@ title: "DNS Certification Authority Authorization (CAA) Resource Record"
 abbrev: CAA
 docname: draft-ietf-spasm-caa-simplification-latest
 category: std
-workgroup: SPASM
+workgroup: LAMPS
 obsoletes: RFC 6844
 
 stand_alone: yes
