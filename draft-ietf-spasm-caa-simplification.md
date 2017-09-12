@@ -287,36 +287,30 @@ author:
    Given a request for a specific domain X, or a request for a wildcard
    domain *.X, the relevant record set R(X) is determined as follows:
 
-   Let CAA(X) be the record set returned in response to performing a CAA
-   record query on the label X, P(X) be the DNS label immediately above
-   X in the DNS hierarchy, and A(X) be the target of a CNAME or DNAME
-   alias record specified at the label X.
+   Let CAA(X) be the record set returned by performing a CAA record
+   query on the domain name X, according to the name server lookup
+   algorithm specified in RFC 1034 section 4.3.2 (in particular following
+   CNAME responses). Let P(X) be the domain name produced by removing the
+   leftmost label of X.
 
-   o  If CAA(X) is not empty, R(X) = CAA (X), otherwise
-
-   o  If A(X) is not null, and R(A(X)) is not empty, then R(X) =
-      R(A(X)), otherwise
-
-   o  If X is not a top-level domain, then R(X) = R(P(X)), otherwise
-
-   o  R(X) is empty.
+    - If CAA(X) contains any CAA resource records, R(X) = CAA(X), otherwise
+    - If P(X) is the root domain '.', then R(X) is empty, otherwise
+    - R(X) = R(P(X))
 
    For example, if a certificate is requested for X.Y.Z the issuer will
    search for the relevant CAA record set in the following order:
 
       X.Y.Z
 
-      Alias (X.Y.Z)
-
       Y.Z
-
-      Alias (Y.Z)
 
       Z
 
-      Alias (Z)
-
       Return Empty
+
+   Note that as part of the RFC 1034 lookup process, any CAA records present at
+   the ultimate target of a CNAME chain from X.Y.Z, Y.Z., or Z, will be included
+   in the respective response.
 
 ##  Use of DNS Security
 
