@@ -4,6 +4,7 @@ abbrev: CAA
 docname: draft-ietf-spasm-caa-simplification-latest
 category: std
 workgroup: SPASM
+obsoletes: RFC 6844
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs]
