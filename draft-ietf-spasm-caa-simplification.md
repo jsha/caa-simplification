@@ -270,48 +270,51 @@ author:
 
 #  Certification Authority Processing
 
-   Before issuing a certificate, a compliant CA MUST check for
-   publication of a relevant CAA Resource Record set.  If such a record
-   set exists, a CA MUST NOT issue a certificate unless the CA
-   determines that either (1) the certificate request is consistent with
-   the applicable CAA Resource Record set or (2) an exception specified
-   in the relevant Certificate Policy or Certification Practices
-   Statement applies.
+Before issuing a certificate, a compliant CA MUST check for
+publication of a relevant CAA Resource Record set.  If such a record
+set exists, a CA MUST NOT issue a certificate unless the CA
+determines that either (1) the certificate request is consistent with
+the applicable CAA Resource Record set or (2) an exception specified
+in the relevant Certificate Policy or Certification Practices
+Statement applies.
 
-   A certificate request MAY specify more than one domain name and MAY
-   specify wildcard domains.  Issuers MUST verify authorization for all
-   the domains and wildcard domains specified in the request.
+A certificate request MAY specify more than one domain name and MAY
+specify wildcard domains.  Issuers MUST verify authorization for all
+the domains and wildcard domains specified in the request.
 
-   The search for a CAA record climbs the DNS name tree from the
-   specified label up to but not including the DNS root '.'.
+The search for a CAA record climbs the DNS name tree from the specified label up
+to but not including the DNS root '.' until CAA records are found.
 
-   Given a request for a specific domain X, or a request for a wildcard
-   domain *.X, the relevant record set R(X) is determined as follows:
+Given a request for a specific domain name X, or a request for a wildcard domain
+name *.X, the relevant record set RelevantCAASet(X) is determined as follows:
 
-   Let CAA(X) be the record set returned by performing a CAA record
-   query on the domain name X, according to the name server lookup
-   algorithm specified in RFC 1034 section 4.3.2 (in particular following
-   CNAME responses). Let P(X) be the domain name produced by removing the
-   leftmost label of X.
+Let CAA(X) be the record set returned by performing a CAA record query for the
+domain name X, according to the lookup algorithm specified in RFC 1034 section
+4.3.2 (in particular chasing aliases). Let Parent(X) be the domain name
+produced by removing the leftmost label of X.
 
-    - If CAA(X) contains any CAA resource records, R(X) = CAA(X), otherwise
-    - If P(X) is the root domain '.', then R(X) is empty, otherwise
-    - R(X) = R(P(X))
+~~~~~~~~~~
+RelevantCAASet(domain):
+  for domain is not ".":
+    if CAA(domain) is not Empty:
+      return CAA(domain)
+    domain = Parent(domain)
+  return Empty
+~~~~~~~~~~
 
-   For example, if a certificate is requested for X.Y.Z the issuer will
-   search for the relevant CAA record set in the following order:
+For example for the domain name "X.Y.Z" where there are no CAA records at any
+level in the tree RelevantCAASet would have the following steps:
 
-      X.Y.Z
+~~~~~~~~~~
+CAA("X.Y.Z.") = Empty; domain = Parent("X.Y.Z.") = "Y.Z."
+CAA("Y.Z.")   = Empty; domain = Parent("Y.Z.")   = "Z."
+CAA("Z.")     = Empty; domain = Parent("Z.")     = "."
+return Empty
+~~~~~~~~~~
 
-      Y.Z
-
-      Z
-
-      Return Empty
-
-   Note that as part of the RFC 1034 lookup process, any CAA records present at
-   the ultimate target of a CNAME chain from X.Y.Z, Y.Z., or Z, will be included
-   in the respective response.
+Note that as part of the RFC 1034 lookup algorithm, any CAA records present at
+the ultimate target of a alias or chain of aliases from the queried domain, will
+be included in the response.
 
 ##  Use of DNS Security
 
@@ -349,12 +352,12 @@ author:
 
        +0-1-2-3-4-5-6-7-|0-1-2-3-4-5-6-7-|
        | Flags          | Tag Length = n |
-       +----------------+----------------+...+---------------+
+       +----------------|----------------+...+---------------+
        | Tag char 0     | Tag char 1     |...| Tag char n-1  |
-       +----------------+----------------+...+---------------+
-       +----------------+----------------+.....+----------------+
+       +----------------|----------------+...+---------------+
+       +----------------|----------------+.....+----------------+
        | Value byte 0   | Value byte 1   |.....| Value byte m-1 |
-       +----------------+----------------+.....+----------------+
+       +----------------|----------------+.....+----------------+
 
    Where n is the length specified in the Tag length field and m is the
    remaining octets in the Value field (m = d - n - 2) where d is the
