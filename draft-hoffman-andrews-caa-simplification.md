@@ -282,35 +282,46 @@ author:
    the domains and wildcard domains specified in the request.
 
    The search for a CAA record climbs the DNS name tree from the
-   specified label up to but not including the DNS root '.'.
+   specified label up to but not including the DNS root '.'
+   until CAA records are found.
 
-   Given a request for a specific domain X, or a request for a wildcard
-   domain *.X, the relevant record set R(X) is determined as follows:
+   Given a request for a specific domain name X, or a request for a wildcard domain
+   name *.X, the relevant record set RelevantCAASet(X) is determined as follows:
 
-   Let CAA(X) be the record set returned by performing a CAA record
-   query on the domain name X, according to the name server lookup
-   algorithm specified in RFC 1034 section 4.3.2 (in particular following
-   CNAME responses). Let P(X) be the domain name produced by removing the
-   leftmost label of X.
+   Let CAA(X) be the record set returned by performing a CAA record query for the
+   domain name X, according to the lookup algorithm specified in RFC 1034 section
+   4.3.2 (in particular chasing aliases). Let Parent(X) be the domain name
+   produced by removing the leftmost label of X.
 
-    - If CAA(X) contains any CAA resource records, R(X) = CAA(X), otherwise
-    - If P(X) is the root domain '.', then R(X) is empty, otherwise
-    - R(X) = R(P(X))
+   ~~~~~~~~~~
+   RelevantCAASet(domain):
+     for domain is not ".":
+       if CAA(domain) is not Empty:
+         return CAA(domain)
+       domain = Parent(domain)
+     return Empty
+   ~~~~~~~~~~
 
-   For example, if a certificate is requested for X.Y.Z the issuer will
-   search for the relevant CAA record set in the following order:
+   For example, processing CAA for the domain name "X.Y.Z" where there are
+   no CAA records at any level in the tree RelevantCAASet would have the
+   following steps:
 
-      X.Y.Z
+   ~~~~~~~~~~
+   CAA("X.Y.Z.") = Empty; domain = Parent("X.Y.Z.") = "Y.Z."
+   CAA("Y.Z.")   = Empty; domain = Parent("Y.Z.")   = "Z."
+   CAA("Z.")     = Empty; domain = Parent("Z.")     = "."
+   return Empty
+   ~~~~~~~~~~
 
-      Y.Z
+   Processing CAA for the domain name "A.B.C" where there is a CAA record
+   "issue example.com" at "B.C" would terminate early upon finding the CAA
+   record:
 
-      Z
-
-      Return Empty
-
-   Note that as part of the RFC 1034 lookup process, any CAA records present at
-   the ultimate target of a CNAME chain from X.Y.Z, Y.Z., or Z, will be included
-   in the respective response.
+   ~~~~~~~~~~
+   CAA("A.B.C.") = Empty; domain = Parent("A.B.C.") = "B.C."
+   CAA("B.C.")   = "issue example.com"
+   return "issue example.com"
+   ~~~~~~~~~~
 
 ##  Use of DNS Security
 
@@ -348,12 +359,12 @@ author:
 
        +0-1-2-3-4-5-6-7-|0-1-2-3-4-5-6-7-|
        | Flags          | Tag Length = n |
-       +----------------+----------------+...+---------------+
+       +----------------|----------------+...+---------------+
        | Tag char 0     | Tag char 1     |...| Tag char n-1  |
-       +----------------+----------------+...+---------------+
-       +----------------+----------------+.....+----------------+
+       +----------------|----------------+...+---------------+
+       +----------------|----------------+.....+----------------+
        | Value byte 0   | Value byte 1   |.....| Value byte m-1 |
-       +----------------+----------------+.....+----------------+
+       +----------------|----------------+.....+----------------+
 
    Where n is the length specified in the Tag length field and m is the
    remaining octets in the Value field (m = d - n - 2) where d is the
