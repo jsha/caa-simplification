@@ -239,7 +239,7 @@ The syntax of additional parameters is a sequence of name-value pairs
 as defined in Section 5.2.  The semantics of such parameters is left
 to site policy and is outside the scope of this document.
 
-The critical flag is intended to permit future versions CAA to
+The critical flag is intended to permit future versions of CAA to
 introduce new semantics that MUST be understood for correct
 processing of the record, preventing conforming CAs that do not
 recognize the new semantics from issuing certificates for the
