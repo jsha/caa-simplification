@@ -66,7 +66,7 @@ certificate embedded in one or more relevant Relying Applications.
 
 Criteria for inclusion of embedded trust anchor certificates in
 applications are outside the scope of this document.  Typically, such
-criteria require the CA to publish a Certificate Practices Statement
+criteria require the CA to publish a Certification Practices Statement
 (CPS) that specifies how the requirements of the Certificate Policy
 (CP) are achieved.  It is also common for a CA to engage an
 independent third-party auditor to prepare an annual audit statement
@@ -148,7 +148,7 @@ Resource Record (RR):  A particular entry in the DNS including the
    owner name, class, type, time to live, and data, as defined in
    \[STD13] and {{!RFC2181}}.
 
-Resource Record Set (RRSet):  A set of Resource Records or a
+Resource Record Set (RRSet):  A set of Resource Records of a
    particular owner name, class, and type.  The time to live on all
    RRs with an RRSet is always the same, but the data may be
    different among RRs in the RRSet.
@@ -367,7 +367,7 @@ length of the RDATA section.
 
 The data fields are defined as follows:
 
-Flags:  One octet containing the following fields:
+Flags:  One octet containing the following field:
 
 Bit 0, Issuer Critical Flag:  If the value is set to '1', the
 critical flag is asserted and the property MUST be understood
