@@ -113,23 +113,23 @@ Certification Authority (CA):  An issuer that issues certificates in
 
 Certificate Policy (CP):  Specifies the criteria that a Certification
    Authority undertakes to meet in its issue of certificates.  See
-   {{!RFC3647}}.
+   {{?RFC3647}}.
 
 Certification Practices Statement (CPS):  Specifies the means by
    which the criteria of the Certificate Policy are met.  In most
    cases, this will be the document against which the operations of
-   the Certification Authority are audited.  See {{!RFC3647}}.
+   the Certification Authority are audited.  See {{?RFC3647}}.
 
 Domain:  A DNS Domain Name.
 
-Domain Name:  A DNS Domain Name as specified in \[STD13].
+Domain Name:  A DNS Domain Name as specified in {{!RFC1034}}.
 
 Domain Name System (DNS):  The Internet naming system specified in
-   \[STD13].
+   {{!RFC1034}} and {{!RFC1035}}.
 
 DNS Security (DNSSEC):  Extensions to the DNS that provide
-   authentication services as specified in RFC4033, RFC4034,
-   RFC4035, RFC5155, and revisions.
+   authentication services as specified in {{!RFC4033}}, {{!RFC4034}},
+   {{!RFC4035}}, {{!RFC5155}}, and revisions.
 
 Issuer:  An entity that issues certificates.  See {{!RFC5280}}.
 
@@ -140,13 +140,13 @@ Property Tag:  The tag portion of a CAA Resource Record.
 Property Value:  The value portion of a CAA Resource Record.
 
 Public Key Infrastructure X.509 (PKIX):  Standards and specifications
-   issued by the IETF that apply the \[X.509] certificate standards
+   issued by the IETF that apply the X.509 certificate standards
    specified by the ITU to Internet applications as specified in
    {{!RFC5280}} and related documents.
 
 Resource Record (RR):  A particular entry in the DNS including the
    owner name, class, type, time to live, and data, as defined in
-   \[STD13] and {{!RFC2181}}.
+   {{!RFC1034}} and {{!RFC2181}}.
 
 Resource Record Set (RRSet):  A set of Resource Records of a
    particular owner name, class, and type.  The time to live on all
@@ -672,14 +672,10 @@ registry with the following initial values:
 | issue      | Authorization Entry by Domain         | {{!RFC6844}}
 | issuewild  | Authorization Entry by Wildcard Domain| {{!RFC6844}}
 | iodef      | Report incident by IODEF report       | {{!RFC6844}}
-| auth       | Reserved                              | \[HB2011]
-| path       | Reserved                              | \[HB2011]
-| policy     | Reserved                              | \[HB2011]
+| auth       | Reserved                              | Unpublished draft
+| path       | Reserved                              | Unpublished draft
+| policy     | Reserved                              | Unpublished draft
 
-
-Although \[HB2011] has expired, deployed clients implement the CAA
-properties specified in the document and reuse of these property tags
-for a different purpose could cause unexpected behavior.
 
 Addition of tag identifiers requires a public specification and
 Expert Review as set out in {{!RFC6195}}, Section 3.1.1.
