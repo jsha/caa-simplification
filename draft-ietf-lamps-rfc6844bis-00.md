@@ -1,7 +1,7 @@
 ---
 title: "DNS Certification Authority Authorization (CAA) Resource Record"
 abbrev: CAA
-docname: draft-hoffman-andrews-caa-simplification
+docname: draft-ietf-lamps-rfc6844bis
 category: std
 obsoletes: RFC 6844
 
