@@ -666,46 +666,7 @@ prior to 4.0.4 had this bug.
 
 #  IANA Considerations
 
-##  Registration of the CAA Resource Record Type
-
-IANA has assigned Resource Record Type 257 for the CAA Resource
-Record Type and added the line depicted below to the registry named
-"Resource Record (RR) TYPEs" and QTYPEs as defined in BCP 42
-{{!RFC6195}} and located at
-http://www.iana.org/assignments/dns-parameters.
-
-| RR Name    | Value and meaning                            |  Reference
-|:-----------|:---------------------------------------------|:---------
-| CAA        | 257 Certification Authority Restriction      |  {{!RFC6844}}
-
-##  Certification Authority Restriction Properties
-
-IANA has created the "Certification Authority Restriction Properties"
-registry with the following initial values:
-
-
-| Tag        | Meaning                               | Reference
-|:-----------|:--------------------------------------|:---------
-| issue      | Authorization Entry by Domain         | {{!RFC6844}}
-| issuewild  | Authorization Entry by Wildcard Domain| {{!RFC6844}}
-| iodef      | Report incident by IODEF report       | {{!RFC6844}}
-| auth       | Reserved                              | \[HB2011]
-| path       | Reserved                              | \[HB2011]
-| policy     | Reserved                              | \[HB2011]
-
-
-Although \[HB2011] has expired, deployed clients implement the CAA
-properties specified in the document and reuse of these property tags
-for a different purpose could cause unexpected behavior.
-
-Addition of tag identifiers requires a public specification and
-Expert Review as set out in {{!RFC6195}}, Section 3.1.1.
-
-The tag space is designed to be sufficiently large that exhausting
-the possible tag space need not be a concern.  The scope of Expert
-Review SHOULD be limited to the question of whether the specification
-provided is sufficiently clear to permit implementation and to avoid
-unnecessary duplication of functionality.
+This document has no IANA actions.
 
 ##  Certification Authority Restriction Flags
 
