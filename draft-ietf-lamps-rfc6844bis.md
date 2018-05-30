@@ -646,14 +646,15 @@ that CAs can receive a valid, empty CAA response for those domains.
 
 ## Bogus DNSSEC Responses
 
-CAA queries are unusual in DNS, because a signed, empty response is different
+Queries for CAA resource records are different from most DNS RR types, because
+a signed, empty response to a query for CAA RRs is meaningfully different
 from a bogus response. A signed, empty response indicates that there is
-definitely no CAA policy set at a given label. A bogus response may mean either
-a misconfigured zone, or an attacker tampering with records. DNSSEC
+definitely no CAA policy set at a given label. A bogus response may mean
+either a misconfigured zone, or an attacker tampering with records. DNSSEC
 implementations may have bugs with signatures on empty responses that go
-unnoticed, because for more common resource record types like A and AAAA, the
-difference to an end user between empty and bogus is irrelevant; they both mean
-a site is unavailable.
+unnoticed, because for more common resource record types like A and AAAA,
+the difference to an end user between empty and bogus is irrelevant; they
+both mean a site is unavailable.
 
 In particular, at least two authoritative resolvers that implement live signing
 had bugs when returning empty resource record sets for DNSSEC-signed zones, in
