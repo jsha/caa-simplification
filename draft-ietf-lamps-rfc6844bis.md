@@ -665,6 +665,31 @@ the same capitalization from the query into their ANSWER section, but sign the
 response as if they had use all lowercase. In particular, PowerDNS versions
 prior to 4.0.4 had this bug.
 
+# Differences versus RFC6844
+
+This document obsoletes RFC6844. The most important change is to
+the Certification Authority Processing section. RFC6844 specified an
+algorithm that performed DNS tree-climbing not only on the domain name
+being processed, but also on all CNAMEs and DNAMEs encountered along
+the way. This made the processing algorithm very inefficient when used
+on domains that utilize many CNAMEs, and would have made it difficult
+for hosting providers to set CAA policies on their own domains without
+setting potentially unwanted CAA policies on their customers' domains.
+This document specifies a simplified processing algorithm that only
+performs tree climbing on the domain being processed, and leaves
+processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
+
+This document also includes a "Deployment Considerations" section
+detailing experience gained with practical deployment of CAA enforcement
+amount CAs in the WebPKI.
+
+This document clarifies the ABNF grammar for issue and issuewild tags
+and resolves some inconsistencies with the document text. It also allows
+hyphens in property names.
+
+This document also clarifies processing of a CAA RRset that is not empty,
+but contains no issue or issuewild tags.
+
 #  IANA Considerations
 
 This document has no IANA actions.
