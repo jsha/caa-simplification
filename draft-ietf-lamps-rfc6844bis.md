@@ -634,6 +634,16 @@ resolver produces a malformed response (with the QR bit set to 0) when queried
 for unknown resource record types.  Per RFC 1034, the correct response for
 unknown resource record types is NOERROR.
 
+## Delegation to Private Nameservers
+
+Some domain administrators make the contents of a subdomain unresolvable on the
+public internet by delegating that subdomain to a nameserver whose IP address is
+private. A CA processing CAA records for such subdomains will receive
+SERVFAIL from its recursive resolver. The CA MAY interpret that as preventing
+issuance. Domain administrators wishing to issue certificates for private
+domains SHOULD use split-horizon DNS with a publicly available nameserver, so
+that CAs can receive a valid, empty CAA response for those domains.
+
 ## Bogus DNSSEC Responses
 
 CAA queries are unusual in DNS, because a signed, empty response is different
