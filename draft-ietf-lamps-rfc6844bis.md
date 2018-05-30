@@ -480,6 +480,11 @@ CAA authorizations are additive; thus, the result of specifying both
 the empty issuer and a specified issuer is the same as specifying
 just the specified issuer alone.
 
+A non-empty CAA record set that contains no issue property tags
+is authorization to any certificate issuer to issue for the corresponding
+domain, provided that it is a non-wildcard domain, and no records in the
+CAA record set otherwise prohibit issuance.
+
 An issuer MAY choose to specify issuer-parameters that further
 constrain the issue of certificates by that issuer, for example,
 specifying that certificates are to be subject to specific validation
@@ -503,6 +508,11 @@ a domain that is not a wildcard domain.
 If at least one issuewild property is specified in the relevant
 CAA record set, all issue properties MUST be ignored when
 processing a request for a domain that is a wildcard domain.
+
+A non-empty CAA record set that contains no issue or issuewild property tags
+is authorization to any certificate issuer to issue for the corresponding
+wildcard domain, provided that no records in the CAA record set otherwise
+prohibit issuance.
 
 ##  CAA iodef Property
 
