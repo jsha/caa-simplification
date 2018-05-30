@@ -438,18 +438,15 @@ authorization to specific certificate issuers.
 The CAA issue property value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
 
-issuevalue  = space \[domain] space \[";" *(space parameter) space]
+issuevalue = *WSP [domain] *WSP [";" *WSP [parameters] *WSP]
 
 domain = label *("." label)
 label = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 
-space = *(SP / HTAB)
-
-parameter =  tag "=" value
-
-tag = 1*(ALPHA / DIGIT)
-
-value = *VCHAR
+parameters = (parameter *WSP “;” *WSP parameters) / parameter
+parameter = tag *WSP "=" *WSP value
+tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
+value = *(%x21-3A / %x3C-7E)
 
 For consistency with other aspects of DNS administration, domain name
 values are specified in letter-digit-hyphen Label (LDH-Label) form.
