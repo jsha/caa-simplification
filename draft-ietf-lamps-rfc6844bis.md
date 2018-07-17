@@ -438,6 +438,7 @@ authorization to specific certificate issuers.
 The CAA issue property value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
 
+~~~~~~~~~~
 issuevalue = *WSP [domain] *WSP [";" *WSP [parameters] *WSP]
 
 domain = label *("." label)
@@ -447,6 +448,7 @@ parameters = (parameter *WSP “;” *WSP parameters) / parameter
 parameter = tag *WSP "=" *WSP value
 tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 value = *(%x21-3A / %x3C-7E)
+~~~~~~~~~~
 
 For consistency with other aspects of DNS administration, domain name
 values are specified in letter-digit-hyphen Label (LDH-Label) form.
@@ -684,7 +686,8 @@ detailing experience gained with practical deployment of CAA enforcement
 amount CAs in the WebPKI.
 
 This document clarifies the ABNF grammar for issue and issuewild tags
-and resolves some inconsistencies with the document text. It also allows
+and resolves some inconsistencies with the document text. In particular,
+it specifies that parameters are separated with hyphens. It also allows
 hyphens in property names.
 
 This document also clarifies processing of a CAA RRset that is not empty,
