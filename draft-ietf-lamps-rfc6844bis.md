@@ -439,12 +439,12 @@ The CAA issue property value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
 
 ~~~~~~~~~~
-issuevalue = *WSP [domain] *WSP [";" *WSP [parameters] *WSP]
+issuevalue = *WSP [domain *WSP] [";" *WSP [parameters *WSP]]
 
 domain = label *("." label)
 label = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 
-parameters = (parameter *WSP “;” *WSP parameters) / parameter
+parameters = (parameter *WSP ";" *WSP parameters) / parameter
 parameter = tag *WSP "=" *WSP value
 tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 value = *(%x21-3A / %x3C-7E)
@@ -461,7 +461,7 @@ authorization to any certificate issuer.
 This form of issue restriction would be appropriate to specify that
 no certificates are to be issued for the domain in question.
 
-For example, the following CAA record set requests that no
+For example, the following CAA resource record set requests that no
 certificates be issued for the domain 'nocerts.example.com' by any
 certificate issuer.
 
@@ -476,11 +476,17 @@ For example, the following CAA record set requests that no
 certificates be issued for the domain 'certs.example.com' by any
 certificate issuer other than the example.net certificate issuer.
 
-certs.example.com       CAA 0 issue "example.net"
+certs.example.com         CAA 0 issue "example.net"
 
 CAA authorizations are additive; thus, the result of specifying both
 the empty issuer and a specified issuer is the same as specifying
 just the specified issuer alone.
+
+An issue property tag where the issuevalue does not match the ABNF
+grammar MUST be treated the same as one specifying the empty issuer. For
+example, the following malformed CAA resource record set forbids issuance:
+
+malformed.example.com     CAA 0 issue "%%%%%"
 
 A non-empty CAA record set that contains no issue property tags
 is authorization to any certificate issuer to issue for the corresponding
