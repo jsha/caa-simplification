@@ -1,7 +1,7 @@
 ---
 title: "DNS Certification Authority Authorization (CAA) Resource Record"
 abbrev: CAA
-docname: draft-hoffman-andrews-caa-simplification
+docname: draft-ietf-lamps-rfc6844bis
 category: std
 obsoletes: RFC 6844
 
@@ -438,18 +438,17 @@ authorization to specific certificate issuers.
 The CAA issue property value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
 
-issuevalue  = space \[domain] space \[";" *(space parameter) space]
+~~~~~~~~~~
+issuevalue = *WSP [domain *WSP] [";" *WSP [parameters *WSP]]
 
 domain = label *("." label)
 label = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 
-space = *(SP / HTAB)
-
-parameter =  tag "=" value
-
-tag = 1*(ALPHA / DIGIT)
-
-value = *VCHAR
+parameters = (parameter *WSP ";" *WSP parameters) / parameter
+parameter = tag *WSP "=" *WSP value
+tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
+value = *(%x21-3A / %x3C-7E)
+~~~~~~~~~~
 
 For consistency with other aspects of DNS administration, domain name
 values are specified in letter-digit-hyphen Label (LDH-Label) form.
@@ -462,7 +461,7 @@ authorization to any certificate issuer.
 This form of issue restriction would be appropriate to specify that
 no certificates are to be issued for the domain in question.
 
-For example, the following CAA record set requests that no
+For example, the following CAA resource record set requests that no
 certificates be issued for the domain 'nocerts.example.com' by any
 certificate issuer.
 
@@ -477,11 +476,22 @@ For example, the following CAA record set requests that no
 certificates be issued for the domain 'certs.example.com' by any
 certificate issuer other than the example.net certificate issuer.
 
-certs.example.com       CAA 0 issue "example.net"
+certs.example.com         CAA 0 issue "example.net"
 
 CAA authorizations are additive; thus, the result of specifying both
 the empty issuer and a specified issuer is the same as specifying
 just the specified issuer alone.
+
+An issue property tag where the issuevalue does not match the ABNF
+grammar MUST be treated the same as one specifying the empty issuer. For
+example, the following malformed CAA resource record set forbids issuance:
+
+malformed.example.com     CAA 0 issue "%%%%%"
+
+A non-empty CAA record set that contains no issue property tags
+is authorization to any certificate issuer to issue for the corresponding
+domain, provided that it is a non-wildcard domain, and no records in the
+CAA record set otherwise prohibit issuance.
 
 An issuer MAY choose to specify issuer-parameters that further
 constrain the issue of certificates by that issuer, for example,
@@ -506,6 +516,11 @@ a domain that is not a wildcard domain.
 If at least one issuewild property is specified in the relevant
 CAA record set, all issue properties MUST be ignored when
 processing a request for a domain that is a wildcard domain.
+
+A non-empty CAA record set that contains no issue or issuewild property tags
+is authorization to any certificate issuer to issue for the corresponding
+wildcard domain, provided that no records in the CAA record set otherwise
+prohibit issuance.
 
 ##  CAA iodef Property
 
@@ -627,16 +642,27 @@ resolver produces a malformed response (with the QR bit set to 0) when queried
 for unknown resource record types.  Per RFC 1034, the correct response for
 unknown resource record types is NOERROR.
 
+## Delegation to Private Nameservers
+
+Some domain administrators make the contents of a subdomain unresolvable on the
+public internet by delegating that subdomain to a nameserver whose IP address is
+private. A CA processing CAA records for such subdomains will receive
+SERVFAIL from its recursive resolver. The CA MAY interpret that as preventing
+issuance. Domain administrators wishing to issue certificates for private
+domains SHOULD use split-horizon DNS with a publicly available nameserver, so
+that CAs can receive a valid, empty CAA response for those domains.
+
 ## Bogus DNSSEC Responses
 
-CAA queries are unusual in DNS, because a signed, empty response is different
+Queries for CAA resource records are different from most DNS RR types, because
+a signed, empty response to a query for CAA RRs is meaningfully different
 from a bogus response. A signed, empty response indicates that there is
-definitely no CAA policy set at a given label. A bogus response may mean either
-a misconfigured zone, or an attacker tampering with records. DNSSEC
+definitely no CAA policy set at a given label. A bogus response may mean
+either a misconfigured zone, or an attacker tampering with records. DNSSEC
 implementations may have bugs with signatures on empty responses that go
-unnoticed, because for more common resource record types like A and AAAA, the
-difference to an end user between empty and bogus is irrelevant; they both mean
-a site is unavailable.
+unnoticed, because for more common resource record types like A and AAAA,
+the difference to an end user between empty and bogus is irrelevant; they
+both mean a site is unavailable.
 
 In particular, at least two authoritative resolvers that implement live signing
 had bugs when returning empty resource record sets for DNSSEC-signed zones, in
@@ -647,44 +673,35 @@ the same capitalization from the query into their ANSWER section, but sign the
 response as if they had use all lowercase. In particular, PowerDNS versions
 prior to 4.0.4 had this bug.
 
+# Differences versus RFC6844
+
+This document obsoletes RFC6844. The most important change is to
+the Certification Authority Processing section. RFC6844 specified an
+algorithm that performed DNS tree-climbing not only on the domain name
+being processed, but also on all CNAMEs and DNAMEs encountered along
+the way. This made the processing algorithm very inefficient when used
+on domains that utilize many CNAMEs, and would have made it difficult
+for hosting providers to set CAA policies on their own domains without
+setting potentially unwanted CAA policies on their customers' domains.
+This document specifies a simplified processing algorithm that only
+performs tree climbing on the domain being processed, and leaves
+processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
+
+This document also includes a "Deployment Considerations" section
+detailing experience gained with practical deployment of CAA enforcement
+amount CAs in the WebPKI.
+
+This document clarifies the ABNF grammar for issue and issuewild tags
+and resolves some inconsistencies with the document text. In particular,
+it specifies that parameters are separated with hyphens. It also allows
+hyphens in property names.
+
+This document also clarifies processing of a CAA RRset that is not empty,
+but contains no issue or issuewild tags.
+
 #  IANA Considerations
 
-##  Registration of the CAA Resource Record Type
-
-IANA has assigned Resource Record Type 257 for the CAA Resource
-Record Type and added the line depicted below to the registry named
-"Resource Record (RR) TYPEs" and QTYPEs as defined in BCP 42
-{{!RFC6195}} and located at
-http://www.iana.org/assignments/dns-parameters.
-
-| RR Name    | Value and meaning                            |  Reference
-|:-----------|:---------------------------------------------|:---------
-| CAA        | 257 Certification Authority Restriction      |  {{!RFC6844}}
-
-##  Certification Authority Restriction Properties
-
-IANA has created the "Certification Authority Restriction Properties"
-registry with the following initial values:
-
-
-| Tag        | Meaning                               | Reference
-|:-----------|:--------------------------------------|:---------
-| issue      | Authorization Entry by Domain         | {{!RFC6844}}
-| issuewild  | Authorization Entry by Wildcard Domain| {{!RFC6844}}
-| iodef      | Report incident by IODEF report       | {{!RFC6844}}
-| auth       | Reserved                              | Unpublished draft
-| path       | Reserved                              | Unpublished draft
-| policy     | Reserved                              | Unpublished draft
-
-
-Addition of tag identifiers requires a public specification and
-Expert Review as set out in {{!RFC6195}}, Section 3.1.1.
-
-The tag space is designed to be sufficiently large that exhausting
-the possible tag space need not be a concern.  The scope of Expert
-Review SHOULD be limited to the question of whether the specification
-provided is sufficiently clear to permit implementation and to avoid
-unnecessary duplication of functionality.
+This document has no IANA actions.
 
 ##  Certification Authority Restriction Flags
 
