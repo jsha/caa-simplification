@@ -3,7 +3,7 @@ title: "DNS Certification Authority Authorization (CAA) Resource Record"
 abbrev: CAA
 docname: draft-ietf-lamps-rfc6844bis
 category: std
-obsoletes: RFC 6844
+obsoletes: 6844
 
 stand_alone: yes
 pi: [toc, sortrefs, symrefs]
@@ -35,6 +35,8 @@ CAA Resource Records allow a public Certification Authority to
 implement additional controls to reduce the risk of unintended
 certificate mis-issue.  This document defines the syntax of the CAA
 record and rules for processing CAA records by certificate issuers.
+
+This document obsoletes RFC 6844.
 
 --- middle
 
@@ -194,7 +196,7 @@ iodef &lt;URL> :  Specifies a URL to which an issuer MAY report
    Certification Practices or Certificate Policy, or that a
    Certificate Evaluator may use to report observation of a possible
    policy violation.  The Incident Object Description Exchange Format
-   (IODEF) format is used {{!RFC5070}}.
+   (IODEF) format is used {{!RFC7970}}.
 
 The following example is a DNS zone file (see {{!RFC1035}}) that informs
 CAs that certificates are not to be issued except by the holder of
@@ -529,7 +531,7 @@ requests or cases of certificate issue for the corresponding domain
 that violate the security policy of the issuer or the domain name
 holder.
 
-The Incident Object Description Exchange Format (IODEF) {{!RFC5070}} is
+The Incident Object Description Exchange Format (IODEF) {{!RFC7970}} is
 used to present the incident report in machine-readable form.
 
 The iodef property takes a URL as its parameter.  The URL scheme type
@@ -715,7 +717,7 @@ registry with the following initial values:
 | 1-7        | Reserved>                         | {{!RFC6844}}
 
 Assignment of new flags follows the RFC Required policy set out in
-{{!RFC5226}}, Section 4.1.
+{{!RFC8126}}, Section 4.1.
 
 #  Acknowledgements
 
