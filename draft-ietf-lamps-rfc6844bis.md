@@ -691,7 +691,7 @@ processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
 
 This document also includes a "Deployment Considerations" section
 detailing experience gained with practical deployment of CAA enforcement
-amount CAs in the WebPKI.
+among CAs in the WebPKI.
 
 This document clarifies the ABNF grammar for issue and issuewild tags
 and resolves some inconsistencies with the document text. In particular,
