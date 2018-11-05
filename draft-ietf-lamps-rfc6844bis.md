@@ -278,7 +278,7 @@ A certificate request MAY specify more than one domain name and MAY
 specify wildcard domains.  Issuers MUST verify authorization for all
 the domains and wildcard domains specified in the request.
 
-The search for a CAA record climbs the DNS name tree from the
+The search for a CAA Resource Record set climbs the DNS name tree from the
 specified label up to but not including the DNS root '.'
 until a CAA Resource Record set is found.
 
