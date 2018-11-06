@@ -17,8 +17,9 @@ author:
  -
     ins: R. Stradling
     name: Rob Stradling
-    org: Comodo Group, Inc
-    email: rob.stradling@comodo.com
+    org: Sectigo Ltd.
+    abbrev: Sectigo
+    email: rob@sectigo.com
  -
     ins: J. Hoffman-Andrews
     name: Jacob Hoffman-Andrews
