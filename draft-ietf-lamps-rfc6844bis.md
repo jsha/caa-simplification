@@ -704,26 +704,15 @@ but contains no issue or issuewild tags.
 
 #  IANA Considerations
 
-This document has no IANA actions.
-
-##  Certification Authority Restriction Flags
-
-IANA has created the "Certification Authority Restriction Flags"
-registry with the following initial values:
-
-
-| Flag       | Meaning                           | Reference
-|:-----------|:----------------------------------|:---------
-| 0          | Issuer Critical Flag              | {{!RFC6844}}
-| 1-7        | Reserved>                         | {{!RFC6844}}
-
-Assignment of new flags follows the RFC Required policy set out in
-{{!RFC8126}}, Section 4.1.
+IANA is requested to add [[[ RFC Editor: Please replace with this RFC ]]] as
+a reference for the Certification Authority Restriction Flags and
+Certification Authority Restriction Properties registries.
 
 #  Acknowledgements
 
 The authors would like to thank the following people who contributed
-to the design and documentation of this work item: Chris Evans,
+to the design and documentation of this work item: Tim Hollebeek,
+Ilari Liusvaara, Corey Bonnell, Chris Evans,
 Stephen Farrell, Jeff Hodges, Paul Hoffman, Stephen Kent, Adam
 Langley, Ben Laurie, James Manager, Chris Palmer, Scott Schmit, Sean
 Turner, and Ben Wilson.
