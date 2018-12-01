@@ -429,8 +429,11 @@ Flags:  Is an unsigned integer between 0 and 255.
 Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
    case.
 
-Value:  Is the &lt;character-string> encoding of the value field as
-   specified in {{!RFC1035}}, Section 5.1.
+Value:  The value field, expressed as a contiguous set of characters
+   without interior spaces, or as a quoted string.  See the the
+   <character-string> format specified in [RFC1035], Section 5.1,
+   but note that the value field contains no length byte and is not
+   limited to 255 characters.
 
 ##  CAA issue Property
 
