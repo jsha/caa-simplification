@@ -205,8 +205,8 @@ the domain name 'ca.example.net' or an authorized agent thereof.
 This policy applies to all subordinate domains under example.com.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net"
 ~~~~~~~~~~
 
 If the domain name holder specifies one or more iodef properties, a
@@ -216,10 +216,10 @@ that reports may be made by means of email with the IODEF data as an
 attachment, a Web service {{!RFC6546}}, or both:
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net"
-.       CAA 0 iodef "mailto:security@example.com"
-.       CAA 0 iodef "http://iodef.example.com/"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net"
+        CAA 0 iodef "mailto:security@example.com"
+        CAA 0 iodef "http://iodef.example.com/"
 ~~~~~~~~~~
 
 A certificate issuer MAY specify additional parameters that allow
@@ -234,8 +234,8 @@ For example, the CA 'ca.example.net' has requested its customer
 the customer's CAA records.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net; account=230123"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net; account=230123"
 ~~~~~~~~~~
 
 The syntax of additional parameters is a sequence of name-value pairs
@@ -254,9 +254,9 @@ issue under either policy unless the processing rules for the 'tbs'
 property tag are understood.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net; policy=ev"
-.       CAA 128 tbs "Unknown"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net; policy=ev"
+        CAA 128 tbs "Unknown"
 ~~~~~~~~~~
 
 Note that the above restrictions only apply at certificate issue.
