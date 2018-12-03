@@ -431,7 +431,7 @@ Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
 
 Value:  The value field, expressed as a contiguous set of characters
    without interior spaces, or as a quoted string.  See the the
-   <character-string> format specified in [RFC1035], Section 5.1,
+   &lt;character-string> format specified in [RFC1035], Section 5.1,
    but note that the value field contains no length byte and is not
    limited to 255 characters.
 
