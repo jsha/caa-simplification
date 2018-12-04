@@ -699,7 +699,7 @@ among CAs in the WebPKI.
 
 This document clarifies the ABNF grammar for issue and issuewild tags
 and resolves some inconsistencies with the document text. In particular,
-it specifies that parameters are separated with hyphens. It also allows
+it specifies that parameters are separated with semicolons. It also allows
 hyphens in property names.
 
 This document also clarifies processing of a CAA RRset that is not empty,
