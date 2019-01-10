@@ -59,12 +59,7 @@ control to be performed by a relying party after the certificate is
 issued.
 
 Conformance with a published CAA record is a necessary but not
-sufficient condition for issuance of a certificate.  Before issuing a
-certificate, a PKIX CA is required to validate the request according
-to the policies set out in its Certificate Policy.  In the case of a
-public CA that validates certificate requests as a third party, the
-certificate will typically be issued under a public trust anchor
-certificate embedded in one or more relevant Relying Applications.
+sufficient condition for issuance of a certificate.
 
 Criteria for inclusion of embedded trust anchor certificates in
 applications are outside the scope of this document.  Typically, such
