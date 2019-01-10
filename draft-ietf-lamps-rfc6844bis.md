@@ -17,8 +17,9 @@ author:
  -
     ins: R. Stradling
     name: Rob Stradling
-    org: Comodo Group, Inc
-    email: rob.stradling@comodo.com
+    org: Sectigo Ltd.
+    abbrev: Sectigo
+    email: rob@sectigo.com
  -
     ins: J. Hoffman-Andrews
     name: Jacob Hoffman-Andrews
@@ -209,8 +210,8 @@ the domain name 'ca.example.net' or an authorized agent thereof.
 This policy applies to all subordinate domain names under example.com.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net"
 ~~~~~~~~~~
 
 If the domain name holder specifies one or more iodef properties, a
@@ -220,10 +221,10 @@ that reports may be made by means of email with the IODEF data as an
 attachment, a Web service {{!RFC6546}}, or both:
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net"
-.       CAA 0 iodef "mailto:security@example.com"
-.       CAA 0 iodef "http://iodef.example.com/"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net"
+        CAA 0 iodef "mailto:security@example.com"
+        CAA 0 iodef "http://iodef.example.com/"
 ~~~~~~~~~~
 
 A certificate issuer MAY specify additional parameters that allow
@@ -238,8 +239,8 @@ For example, the CA 'ca.example.net' has requested its customer
 the customer's CAA records.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net; account=230123"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net; account=230123"
 ~~~~~~~~~~
 
 The syntax of additional parameters is a sequence of name-value pairs
@@ -258,9 +259,9 @@ issue under either policy unless the processing rules for the 'tbs'
 property tag are understood.
 
 ~~~~~~~~~~
-$ORIGIN example.com
-.       CAA 0 issue "ca.example.net; policy=ev"
-.       CAA 128 tbs "Unknown"
+$ORIGIN example.com.
+        CAA 0 issue "ca.example.net; policy=ev"
+        CAA 128 tbs "Unknown"
 ~~~~~~~~~~
 
 Note that the above restrictions only apply at certificate issue.
@@ -286,9 +287,9 @@ A certificate request MAY specify more than one domain name and MAY
 specify wildcard domain names.  Issuers MUST verify authorization for all
 the domain names and wildcard domain names specified in the request.
 
-The search for a CAA record climbs the DNS name tree from the
+The search for a CAA Resource Record set climbs the DNS name tree from the
 specified label up to but not including the DNS root '.'
-until CAA records are found.
+until a CAA Resource Record set is found.
 
 Given a request for a specific domain name X, or a request for a wildcard domain
 name *.X, the relevant resource record set RelevantCAASet(X) is determined as follows:
@@ -436,8 +437,11 @@ Flags:  Is an unsigned integer between 0 and 255.
 Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
    case.
 
-Value:  Is the &lt;character-string> encoding of the value field as
-   specified in {{!RFC1035}}, Section 5.1.
+Value:  The value field, expressed as a contiguous set of characters
+   without interior spaces, or as a quoted string.  See the the
+   &lt;character-string> format specified in [RFC1035], Section 5.1,
+   but note that the value field contains no length byte and is not
+   limited to 255 characters.
 
 ##  CAA issue Property
 
@@ -690,11 +694,11 @@ processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
 
 This document also includes a "Deployment Considerations" section
 detailing experience gained with practical deployment of CAA enforcement
-amount CAs in the WebPKI.
+among CAs in the WebPKI.
 
 This document clarifies the ABNF grammar for issue and issuewild tags
 and resolves some inconsistencies with the document text. In particular,
-it specifies that parameters are separated with hyphens. It also allows
+it specifies that parameters are separated with semicolons. It also allows
 hyphens in property names.
 
 This document also clarifies processing of a CAA RRset that is not empty,
@@ -702,26 +706,14 @@ but contains no issue or issuewild tags.
 
 #  IANA Considerations
 
-This document has no IANA actions.
-
-##  Certification Authority Restriction Flags
-
-IANA has created the "Certification Authority Restriction Flags"
-registry with the following initial values:
-
-
-| Flag       | Meaning                           | Reference
-|:-----------|:----------------------------------|:---------
-| 0          | Issuer Critical Flag              | {{!RFC6844}}
-| 1-7        | Reserved                          | {{!RFC6844}}
-
-Assignment of new flags follows the RFC Required policy set out in
-{{!RFC8126}}, Section 4.1.
+IANA is requested to add [[[ RFC Editor: Please replace with this RFC ]]] as
+a reference for the Certification Authority Restriction Flags and
+Certification Authority Restriction Properties registries.
 
 #  Acknowledgements
 
 The authors would like to thank the following people who contributed
-to the design and documentation of this work item: Chris Evans,
-Stephen Farrell, Jeff Hodges, Paul Hoffman, Stephen Kent, Adam
-Langley, Ben Laurie, James Manager, Chris Palmer, Scott Schmit, Sean
-Turner, and Ben Wilson.
+to the design and documentation of this work item: Tim Hollebeek,
+Corey Bonnell, Chris Evans, Stephen Farrell, Jeff Hodges, Paul Hoffman,
+Stephen Kent, Adam Langley, Ben Laurie, James Manager, Chris Palmer,
+Scott Schmit, Sean Turner, and Ben Wilson.
