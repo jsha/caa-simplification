@@ -272,12 +272,15 @@ validation by a relying party.
 #  Certification Authority Processing
 
 Before issuing a certificate, a compliant CA MUST check for
-publication of a relevant CAA Resource Record set.  If such a record
+publication of a relevant resource record set.  If such a record
 set exists, a CA MUST NOT issue a certificate unless the CA
 determines that either (1) the certificate request is consistent with
 the applicable CAA Resource Record set or (2) an exception specified
 in the relevant Certificate Policy or Certification Practices
-Statement applies.
+Statement applies. If the relevant resource record set for a domain name
+or wildcard domain name contains no property tags that restrict issuance
+(for instance, if it contains only iodef property tags, or only property
+tags unrecognized by the CA), CAA does not restrict issuance.
 
 A certificate request MAY specify more than one domain name and MAY
 specify wildcard domain names.  Issuers MUST verify authorization for all
@@ -495,11 +498,6 @@ example, the following malformed CAA resource record set forbids issuance:
 
 malformed.example.com     CAA 0 issue "%%%%%"
 
-A non-empty CAA record set that contains no issue property tags
-is authorization to any certificate issuer to issue for the corresponding
-domain name, provided that it is a non-wildcard domain name, and no records in the
-CAA record set otherwise prohibit issuance.
-
 An issuer MAY choose to specify issuer-parameters that further
 constrain the issue of certificates by that issuer, for example,
 specifying that certificates are to be subject to specific validation
@@ -521,13 +519,8 @@ issuewild properties MUST be ignored when processing a request for
 a domain name that is not a wildcard domain name.
 
 If at least one issuewild property is specified in the relevant
-CAA record set, all issue properties MUST be ignored when
-processing a request for a domain name that is a wildcard domain name.
-
-A non-empty CAA record set that contains no issue or issuewild property tags
-is authorization to any certificate issuer to issue for the corresponding
-wildcard domain name, provided that no records in the CAA record set otherwise
-prohibit issuance.
+resource record set for a wildcard domain name, all issue properties MUST
+be ignored when processing a request for that wildcard domain name.
 
 ##  CAA iodef Property
 
