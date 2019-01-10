@@ -631,15 +631,16 @@ customer will thus discover that they had been deceived.
 
 # Deployment Considerations
 
+A CA implementing CAA may find that they receive errors looking up CAA records.
+The following are some common causes of such errors, so that CAs may provide
+guidance to their subscribers on fixing the underlying problems.
+
 ## Blocked Queries or Responses
 
 Some middleboxes, in particular anti-DDoS appliances, may be configured to
 drop DNS packets of unknown types, or may start dropping such packets when
 they consider themselves under attack. This generally manifests as a timed-out
 DNS query, or a SERVFAIL at a local recursive resolver.
-
-For deployability of CAA and future DNS record types, middleboxes SHOULD block
-DNS packets by volume and size rather than by query type.
 
 ## Rejected Queries and Malformed Responses
 
