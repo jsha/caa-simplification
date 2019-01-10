@@ -30,7 +30,7 @@ author:
 
 The Certification Authority Authorization (CAA) DNS Resource Record
 allows a DNS domain name holder to specify one or more Certification
-Authorities (CAs) authorized to issue certificates for that domain.
+Authorities (CAs) authorized to issue certificates for that domain name.
 CAA Resource Records allow a public Certification Authority to
 implement additional controls to reduce the risk of unintended
 certificate mis-issue.  This document defines the syntax of the CAA
@@ -44,7 +44,7 @@ This document obsoletes RFC 6844.
 
 The Certification Authority Authorization (CAA) DNS Resource Record
 allows a DNS domain name holder to specify the Certification
-Authorities (CAs) authorized to issue certificates for that domain.
+Authorities (CAs) authorized to issue certificates for that domain name.
 Publication of CAA Resource Records allows a public Certification
 Authority to implement additional controls to reduce the risk of
 unintended certificate mis-issue.
@@ -75,8 +75,8 @@ independent third-party auditor to prepare an annual audit statement
 of its performance against its CPS.
 
 A set of CAA records describes only current grants of authority to
-issue certificates for the corresponding DNS domain.  Since a
-certificate is typically valid for at least a year, it is possible
+issue certificates for the corresponding DNS domain name.  Since
+certificates are valid for a period of time, it is possible
 that a certificate that is not conformant with the CAA records
 currently published was conformant with the CAA records published at
 the time that the certificate was issued.  Relying Applications MUST
@@ -94,7 +94,7 @@ certificate was observed by the Certificate Evaluator.
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in {{!RFC2119}}.
+document are to be interpreted as described in {{!RFC8174}}.
 
 ##  Defined Terms
 
@@ -121,8 +121,6 @@ Certification Practices Statement (CPS):  Specifies the means by
    which the criteria of the Certificate Policy are met.  In most
    cases, this will be the document against which the operations of
    the Certification Authority are audited.  See {{?RFC3647}}.
-
-Domain:  A DNS Domain Name.
 
 Domain Name:  A DNS Domain Name as specified in {{!RFC1034}}.
 
@@ -173,7 +171,7 @@ Issuer Critical:  If set to '1', indicates that the corresponding
    property tag MUST be understood if the semantics of the CAA record
    are to be correctly interpreted by an issuer.
 
-   Issuers MUST NOT issue certificates for a domain if the relevant
+   Issuers MUST NOT issue certificates for a domain name if the relevant
    CAA Resource Record set contains unknown property tags that have
    the Critical bit set.
 
@@ -182,14 +180,14 @@ The following property tags are defined:
 issue &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issue property
    entry authorizes the holder of the domain name &lt;Issuer Domain
    Name> or a party acting under the explicit authority of the holder
-   of that domain name to issue certificates for the domain in which
+   of that domain name to issue certificates for the domain name in which
    the property is published.
 
 issuewild &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issuewild
    property entry authorizes the holder of the domain name &lt;Issuer
    Domain Name> or a party acting under the explicit authority of the
    holder of that domain name to issue wildcard certificates for the
-   domain in which the property is published.
+   domain name in which the property is published.
 
 iodef &lt;URL> :  Specifies a URL to which an issuer MAY report
    certificate issue requests that are inconsistent with the issuer's
@@ -201,7 +199,7 @@ iodef &lt;URL> :  Specifies a URL to which an issuer MAY report
 The following example is a DNS zone file (see {{!RFC1035}}) that informs
 CAs that certificates are not to be issued except by the holder of
 the domain name 'ca.example.net' or an authorized agent thereof.
-This policy applies to all subordinate domains under example.com.
+This policy applies to all subordinate domain names under example.com.
 
 ~~~~~~~~~~
 $ORIGIN example.com
@@ -245,7 +243,7 @@ The critical flag is intended to permit future versions of CAA to
 introduce new semantics that MUST be understood for correct
 processing of the record, preventing conforming CAs that do not
 recognize the new semantics from issuing certificates for the
-indicated domains.
+indicated domain names.
 
 In the following example, the property 'tbs' is flagged as critical.
 Neither the example.net CA nor any other issuer is authorized to
@@ -261,7 +259,7 @@ $ORIGIN example.com
 Note that the above restrictions only apply at certificate issue.
 Since the validity of an end entity certificate is typically a year
 or more, it is quite possible that the CAA records published at a
-domain will change between the time a certificate was issued and
+domain name will change between the time a certificate was issued and
 validation by a relying party.
 
 #  Certification Authority Processing
@@ -275,8 +273,8 @@ in the relevant Certificate Policy or Certification Practices
 Statement applies.
 
 A certificate request MAY specify more than one domain name and MAY
-specify wildcard domains.  Issuers MUST verify authorization for all
-the domains and wildcard domains specified in the request.
+specify wildcard domain names.  Issuers MUST verify authorization for all
+the domain names and wildcard domain names specified in the request.
 
 The search for a CAA record climbs the DNS name tree from the
 specified label up to but not including the DNS root '.'
@@ -327,14 +325,14 @@ required.  An issuer MUST NOT issue certificates if doing so would
 conflict with the relevant CAA Resource Record set, irrespective of
 whether the corresponding DNS records are signed.
 
-DNSSEC provides a proof of non-existence for both DNS domains and RR
-set within domains.  DNSSEC verification thus enables an issuer to
+DNSSEC provides a proof of non-existence for both DNS domain names and RR
+set within domain names.  DNSSEC verification thus enables an issuer to
 determine if the answer to a CAA record query is empty because the RR
 set is empty or if it is non-empty but the response has been
 suppressed.
 
 Use of DNSSEC allows an issuer to acquire and archive a proof that
-they were authorized to issue certificates for the domain.
+they were authorized to issue certificates for the domain name.
 Verification of such archives MAY be an audit requirement to verify
 CAA record processing compliance.  Publication of such archives MAY
 be a transparency requirement to verify CAA record processing
@@ -377,7 +375,7 @@ if the CAA record is to be correctly processed by a certificate
 issuer.
 
 A Certification Authority MUST NOT issue certificates for any
-Domain that contains a CAA critical property for an unknown or
+domain name that contains a CAA critical property for an unknown or
 unsupported property tag that for which the issuer critical
 flag is set.
 
@@ -434,7 +432,7 @@ Value:  Is the &lt;character-string> encoding of the value field as
 ##  CAA issue Property
 
 The issue property tag is used to request that certificate issuers
-perform CAA issue restriction processing for the domain and to grant
+perform CAA issue restriction processing for the domain name and to grant
 authorization to specific certificate issuers.
 
 The CAA issue property value has the following sub-syntax (specified
@@ -457,25 +455,25 @@ values are specified in letter-digit-hyphen Label (LDH-Label) form.
 
 A CAA record with an issue parameter tag that does not specify a
 domain name is a request that certificate issuers perform CAA issue
-restriction processing for the corresponding domain without granting
+restriction processing for the corresponding domain name without granting
 authorization to any certificate issuer.
 
 This form of issue restriction would be appropriate to specify that
-no certificates are to be issued for the domain in question.
+no certificates are to be issued for the domain name in question.
 
 For example, the following CAA resource record set requests that no
-certificates be issued for the domain 'nocerts.example.com' by any
+certificates be issued for the domain name 'nocerts.example.com' by any
 certificate issuer.
 
 nocerts.example.com       CAA 0 issue ";"
 
 A CAA record with an issue parameter tag that specifies a domain name
 is a request that certificate issuers perform CAA issue restriction
-processing for the corresponding domain and grants authorization to
+processing for the corresponding domain name and grants authorization to
 the certificate issuer specified by the domain name.
 
 For example, the following CAA record set requests that no
-certificates be issued for the domain 'certs.example.com' by any
+certificates be issued for the domain name 'certs.example.com' by any
 certificate issuer other than the example.net certificate issuer.
 
 certs.example.com         CAA 0 issue "example.net"
@@ -492,7 +490,7 @@ malformed.example.com     CAA 0 issue "%%%%%"
 
 A non-empty CAA record set that contains no issue property tags
 is authorization to any certificate issuer to issue for the corresponding
-domain, provided that it is a non-wildcard domain, and no records in the
+domain name, provided that it is a non-wildcard domain name, and no records in the
 CAA record set otherwise prohibit issuance.
 
 An issuer MAY choose to specify issuer-parameters that further
@@ -508,26 +506,26 @@ alone.
 
 The issuewild property has the same syntax and semantics as the issue
 property except that issuewild properties only grant authorization to
-issue certificates that specify a wildcard domain and issuewild
+issue certificates that specify a wildcard domain name and issuewild
 properties take precedence over issue properties when specified.
 Specifically:
 
 issuewild properties MUST be ignored when processing a request for
-a domain that is not a wildcard domain.
+a domain name that is not a wildcard domain name.
 
 If at least one issuewild property is specified in the relevant
 CAA record set, all issue properties MUST be ignored when
-processing a request for a domain that is a wildcard domain.
+processing a request for a domain name that is a wildcard domain name.
 
 A non-empty CAA record set that contains no issue or issuewild property tags
 is authorization to any certificate issuer to issue for the corresponding
-wildcard domain, provided that no records in the CAA record set otherwise
+wildcard domain name, provided that no records in the CAA record set otherwise
 prohibit issuance.
 
 ##  CAA iodef Property
 
 The iodef property specifies a means of reporting certificate issue
-requests or cases of certificate issue for the corresponding domain
+requests or cases of certificate issue for the corresponding domain name
 that violate the security policy of the issuer or the domain name
 holder.
 
@@ -570,10 +568,10 @@ removal of an embedded trust anchor.
 
 Use of CAA records does not prevent mis-issue by an authorized
 Certification Authority, i.e., a CA that is authorized to issue
-certificates for the domain in question by CAA records.
+certificates for the domain name in question by CAA records.
 
 Domain name holders SHOULD verify that the CAs they authorize to
-issue certificates for their domains employ appropriate controls to
+issue certificates for their domain names employ appropriate controls to
 ensure that certificates are issued only to authorized parties within
 their organization.
 
@@ -590,7 +588,7 @@ was not authorized to issue for that domain name.
 Where possible, issuers SHOULD perform DNSSEC validation to detect
 missing or modified CAA record sets.
 
-In cases where DNSSEC is not deployed in a corresponding domain, an
+In cases where DNSSEC is not deployed for a corresponding domain name, an
 issuer SHOULD attempt to mitigate this risk by employing appropriate
 DNS security controls.  For example, all portions of the DNS lookup
 process SHOULD be performed against the authoritative name server.
@@ -646,13 +644,13 @@ unknown resource record types is NOERROR.
 
 ## Delegation to Private Nameservers
 
-Some domain administrators make the contents of a subdomain unresolvable on the
+Some domain name administrators make the contents of a subdomain unresolvable on the
 public internet by delegating that subdomain to a nameserver whose IP address is
 private. A CA processing CAA records for such subdomains will receive
 SERVFAIL from its recursive resolver. The CA MAY interpret that as preventing
-issuance. Domain administrators wishing to issue certificates for private
-domains SHOULD use split-horizon DNS with a publicly available nameserver, so
-that CAs can receive a valid, empty CAA response for those domains.
+issuance. Domain name administrators wishing to issue certificates for private
+domain names SHOULD use split-horizon DNS with a publicly available nameserver, so
+that CAs can receive a valid, empty CAA response for those domain names.
 
 ## Bogus DNSSEC Responses
 
@@ -682,11 +680,11 @@ the Certification Authority Processing section. RFC6844 specified an
 algorithm that performed DNS tree-climbing not only on the domain name
 being processed, but also on all CNAMEs and DNAMEs encountered along
 the way. This made the processing algorithm very inefficient when used
-on domains that utilize many CNAMEs, and would have made it difficult
-for hosting providers to set CAA policies on their own domains without
-setting potentially unwanted CAA policies on their customers' domains.
+on domain names that utilize many CNAMEs, and would have made it difficult
+for hosting providers to set CAA policies on their own domain names without
+setting potentially unwanted CAA policies on their customers' domain names.
 This document specifies a simplified processing algorithm that only
-performs tree climbing on the domain being processed, and leaves
+performs tree climbing on the domain name being processed, and leaves
 processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
 
 This document also includes a "Deployment Considerations" section
@@ -714,7 +712,7 @@ registry with the following initial values:
 | Flag       | Meaning                           | Reference
 |:-----------|:----------------------------------|:---------
 | 0          | Issuer Critical Flag              | {{!RFC6844}}
-| 1-7        | Reserved>                         | {{!RFC6844}}
+| 1-7        | Reserved                          | {{!RFC6844}}
 
 Assignment of new flags follows the RFC Required policy set out in
 {{!RFC8126}}, Section 4.1.
