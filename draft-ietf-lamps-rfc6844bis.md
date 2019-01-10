@@ -118,8 +118,6 @@ Certification Practices Statement (CPS):  Specifies the means by
    cases, this will be the document against which the operations of
    the Certification Authority are audited.  See {{?RFC3647}}.
 
-Domain Name:  A DNS Domain Name as specified in {{!RFC1034}}.
-
 Domain Name System (DNS):  The Internet naming system specified in
    {{!RFC1034}} and {{!RFC1035}}.
 
