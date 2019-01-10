@@ -126,6 +126,9 @@ DNS Security (DNSSEC):  Extensions to the DNS that provide
    authentication services as specified in {{!RFC4033}}, {{!RFC4034}},
    {{!RFC4035}}, {{!RFC5155}}, and revisions.
 
+Fully-Qualified Domain Name: A Domain Name that includes the labels of all
+superior nodes in the Domain Name System.
+
 Issuer:  An entity that issues certificates.  See {{!RFC5280}}.
 
 Property:  The tag-value portion of a CAA Resource Record.
@@ -148,12 +151,20 @@ Resource Record Set (RRSet):  A set of Resource Records of a
    RRs with an RRSet is always the same, but the data may be
    different among RRs in the RRSet.
 
+Relevant Resource Record Set:  A set of CAA Resource Records resulting
+   from applying the algorithm in Section 4 to a specific Domain Name or
+   Wildcard Domain Name.
+
 Relying Party:  A party that makes use of an application whose
    operation depends on use of a certificate for making a security
    decision.  See {{!RFC5280}}.
 
 Relying Application:  An application whose operation depends on use
    of a certificate for making a security decision.
+
+Wildcard Domain Name: A Domain Name consisting of a single asterisk
+   character followed by a single full stop character (“*.”) followed
+   by a Fully-Qualified Domain Name.
 
 #  The CAA RR Type
 
@@ -175,14 +186,15 @@ The following property tags are defined:
 issue &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issue property
    entry authorizes the holder of the domain name &lt;Issuer Domain
    Name> or a party acting under the explicit authority of the holder
-   of that domain name to issue certificates for the domain name in which
-   the property is published.
+   of that domain name to issue certificates for domain names where this
+   property tag is in the domain name's relevant resource record set.
 
 issuewild &lt;Issuer Domain Name> \[; &lt;name>=&lt;value> ]* :  The issuewild
    property entry authorizes the holder of the domain name &lt;Issuer
    Domain Name> or a party acting under the explicit authority of the
-   holder of that domain name to issue wildcard certificates for the
-   domain name in which the property is published.
+   holder of that domain name to issue certificates for wildcard domain names
+   where this property tag is in the wildcard domain name's relevant resource
+   record set.
 
 iodef &lt;URL> :  Specifies a URL to which an issuer MAY report
    certificate issue requests that are inconsistent with the issuer's
@@ -276,7 +288,7 @@ specified label up to but not including the DNS root '.'
 until CAA records are found.
 
 Given a request for a specific domain name X, or a request for a wildcard domain
-name *.X, the relevant record set RelevantCAASet(X) is determined as follows:
+name *.X, the relevant resource record set RelevantCAASet(X) is determined as follows:
 
 Let CAA(X) be the record set returned by performing a CAA record query for the
 domain name X, according to the lookup algorithm specified in RFC 1034 section
