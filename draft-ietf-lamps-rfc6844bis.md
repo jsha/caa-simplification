@@ -302,8 +302,12 @@ Value:  The value field, expressed as a contiguous set of characters
 
 If the issue property tag is present in the relevant resource record set for a
 domain name, it is a request that certificate issuers
-perform CAA issue restriction processing for the domain name and grant
-authorization to specific certificate issuers.
+
+1. Perform CAA issue restriction processing for the domain name, and
+2. Grant authorization to issue certificates containing that domain name
+    to the holder of the issuer-domain-name
+    or a party acting under the explicit authority of the holder of the
+    issuer-domain-name.
 
 The CAA issue property value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
