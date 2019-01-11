@@ -385,8 +385,7 @@ issuer.
 
 A Certification Authority MUST NOT issue certificates for any
 domain name that contains a CAA critical property for an unknown or
-unsupported property tag that for which the issuer critical
-flag is set.
+unsupported property tag.
 
 Note that according to the conventions set out in {{!RFC1035}}, bit 0
 is the Most Significant Bit and bit 7 is the Least Significant
@@ -465,7 +464,7 @@ value = *(%x21-3A / %x3C-7E)
 For consistency with other aspects of DNS administration, domain name
 values are specified in letter-digit-hyphen Label (LDH-Label) form.
 
-A CAA record with an issue parameter tag that does not specify a
+A CAA record with an issue property tag that does not specify a
 domain name is a request that certificate issuers perform CAA issue
 restriction processing for the corresponding domain name without granting
 authorization to any certificate issuer.
@@ -479,7 +478,7 @@ certificate issuer.
 
 nocerts.example.com       CAA 0 issue ";"
 
-A CAA record with an issue parameter tag that specifies a domain name
+A CAA record with an issue property tag that specifies a domain name
 is a request that certificate issuers perform CAA issue restriction
 processing for the corresponding domain name and grants authorization to
 the certificate issuer specified by the domain name.
