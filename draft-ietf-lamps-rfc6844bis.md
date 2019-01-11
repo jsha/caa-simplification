@@ -52,7 +52,7 @@ unintended certificate mis-issue.
 
 Like the TLSA record defined in DNS-Based Authentication of Named
 Entities (DANE) {{!RFC6698}}, CAA records are used as a part of a
-mechanism for checking PKIX certificate data.  The distinction
+mechanism for checking PKIX {{!RFC6698}} certificate data.  The distinction
 between the two specifications is that CAA records specify an
 authorization control to be performed by a certificate issuer before
 issue of a certificate and TLSA records specify a verification
@@ -75,7 +75,7 @@ issue certificates for the corresponding DNS domain name.  Since
 certificates are valid for a period of time, it is possible
 that a certificate that is not conformant with the CAA records
 currently published was conformant with the CAA records published at
-the time that the certificate was issued.  Relying Applications MUST
+the time that the certificate was issued.  Relying parties MUST
 NOT use CAA records as part of certificate validation.
 
 CAA records MAY be used by Certificate Evaluators as a possible
@@ -95,10 +95,6 @@ document are to be interpreted as described in {{!RFC8174}}.
 ##  Defined Terms
 
 The following terms are used in this document:
-
-Authorization Entry:  An authorization assertion that grants or
-   denies a specific set of permissions to a specific group of
-   entities.
 
 Certificate:  An X.509 Certificate, as specified in {{!RFC5280}}.
 
@@ -126,7 +122,7 @@ DNS Security (DNSSEC):  Extensions to the DNS that provide
    {{!RFC4035}}, {{!RFC5155}}, and revisions.
 
 Fully-Qualified Domain Name: A Domain Name that includes the labels of all
-superior nodes in the Domain Name System.
+  superior nodes in the Domain Name System.
 
 Issuer:  An entity that issues certificates.  See {{!RFC5280}}.
 
@@ -135,11 +131,6 @@ Property:  The tag-value portion of a CAA Resource Record.
 Property Tag:  The tag portion of a CAA Resource Record.
 
 Property Value:  The value portion of a CAA Resource Record.
-
-Public Key Infrastructure X.509 (PKIX):  Standards and specifications
-   issued by the IETF that apply the X.509 certificate standards
-   specified by the ITU to Internet applications as specified in
-   {{!RFC5280}} and related documents.
 
 Resource Record (RR):  A particular entry in the DNS including the
    owner name, class, type, time to live, and data, as defined in
@@ -157,9 +148,6 @@ Relevant Resource Record Set:  A set of CAA Resource Records resulting
 Relying Party:  A party that makes use of an application whose
    operation depends on use of a certificate for making a security
    decision.  See {{!RFC5280}}.
-
-Relying Application:  An application whose operation depends on use
-   of a certificate for making a security decision.
 
 Wildcard Domain Name: A Domain Name consisting of a single asterisk
    character followed by a single full stop character (“*.”) followed
