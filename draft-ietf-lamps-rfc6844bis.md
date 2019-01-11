@@ -216,15 +216,12 @@ return "issue example.com"
 
 ##  Syntax
 
-A CAA RR contains a single property entry consisting of a tag-value
-pair.  Each tag represents a property of the CAA record.  The value
-of a CAA property is that specified in the corresponding value field.
+A CAA resource record contains a single property consisting of a tag-value
+pair. A domain name MAY have multiple CAA RRs associated with it and a
+given property tag MAY be specified more than once.
 
-A domain name MAY have multiple CAA RRs associated with it and a
-given property MAY be specified more than once.
-
-The CAA data field contains one property entry.  A property entry
-consists of the following data fields:
+The RDATA section for a CAA resource record contains one property. A property
+consists of the following:
 
     +0-1-2-3-4-5-6-7-|0-1-2-3-4-5-6-7-|
     | Flags          | Tag Length = n |
@@ -236,21 +233,17 @@ consists of the following data fields:
     +----------------|----------------+.....+----------------+
 
 Where n is the length specified in the Tag length field and m is the
-remaining octets in the Value field (m = d - n - 2) where d is the
-length of the RDATA section.
+remaining octets in the Value field. They are related by (m = d - n - 2)
+where d is the length of the RDATA section.
 
-The data fields are defined as follows:
+The fields are defined as follows:
 
 Flags:  One octet containing the following field:
 
 Bit 0, Issuer Critical Flag:  If the value is set to '1', the
-critical flag is asserted and the property MUST be understood
-if the CAA record is to be correctly processed by a certificate
-issuer.
-
-A Certification Authority MUST NOT issue certificates for any
-domain name that contains a CAA critical property for an unknown or
-unsupported property tag.
+property is critical. A Certification Authority MUST NOT issue
+certificates for any domain name that contains a CAA critical
+property for an unknown or unsupported property tag.
 
 Note that according to the conventions set out in {{!RFC1035}}, bit 0
 is the Most Significant Bit and bit 7 is the Least Significant
@@ -270,12 +263,12 @@ SHOULD be no more than 15.
 
 Tag:  The property identifier, a sequence of US-ASCII characters.
 
-Tag values MAY contain US-ASCII characters 'a' through 'z', 'A'
-through 'Z', and the numbers 0 through 9.  Tag values SHOULD NOT
-contain any other characters.  Matching of tag values is case
+Tags MAY contain US-ASCII characters 'a' through 'z', 'A'
+through 'Z', and the numbers 0 through 9.  Tags SHOULD NOT
+contain any other characters.  Matching of tags is case
 insensitive.
 
-Tag values submitted for registration by IANA MUST NOT contain any
+Tags submitted for registration by IANA MUST NOT contain any
 characters other than the (lowercase) US-ASCII characters 'a'
 through 'z' and the numbers 0 through 9.
 
@@ -284,7 +277,7 @@ Property values are encoded as binary values and MAY employ sub-
 formats.
 
 The length of the value field is specified implicitly as the
-remaining length of the enclosing Resource Record data field.
+remaining length of the enclosing RDATA section.
 
 ###  Canonical Presentation Format
 
