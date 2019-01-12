@@ -408,7 +408,7 @@ is permitted to issue for "wild3.example.com" or "sub.wild3.example.com".
 ##  CAA iodef Property
 
 The iodef property specifies a means by which an issuer MAY report
-to the domain owner certificate issuance requests or certificate issuance
+certificate issuance requests or certificate issuance
 for domains in which the property appears in the relevant resource record set.
 
 The Incident Object Description Exchange Format (IODEF) {{!RFC7970}} is
@@ -463,10 +463,10 @@ required.  An issuer MUST NOT issue certificates if doing so would
 conflict with the relevant CAA Resource Record set, irrespective of
 whether the corresponding DNS records are signed.
 
-DNSSEC provides a proof of non-existence for both DNS domain names and RR
-set within domain names.  DNSSEC verification thus enables an issuer to
-determine if the answer to a CAA record query is empty because the RR
-set is empty or if it is non-empty but the response has been
+DNSSEC provides a proof of non-existence for both DNS domain names and
+RRSets within domain names.  DNSSEC verification thus enables an issuer to
+determine if the answer to a CAA record query is empty because the RRSet
+is empty or if it is non-empty but the response has been
 suppressed.
 
 Use of DNSSEC allows an issuer to acquire and archive a proof that
