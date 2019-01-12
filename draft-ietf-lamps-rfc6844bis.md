@@ -150,7 +150,7 @@ Relying Party:  A party that makes use of an application whose
    decision.  See {{!RFC5280}}.
 
 Wildcard Domain Name: A Domain Name consisting of a single asterisk
-   character followed by a single full stop character (“*.”) followed
+   character followed by a single full stop character (“\*.”) followed
    by a Fully-Qualified Domain Name.
 
 #  Relevant Resource Record Set
@@ -175,7 +175,7 @@ specified label up to but not including the DNS root '.'
 until a CAA Resource Record set is found.
 
 Given a request for a specific domain name X, or a request for a wildcard domain
-name *.X, the relevant resource record set RelevantCAASet(X) is determined as follows:
+name \*.X, the relevant resource record set RelevantCAASet(X) is determined as follows:
 
 Let CAA(X) be the record set returned by performing a CAA record query for the
 domain name X, according to the lookup algorithm specified in RFC 1034 section
@@ -331,8 +331,8 @@ The following CAA record set requests that no
 certificates be issued for the domain name 'certs.example.com' by any
 issuer other than ca1.example.net or ca2.example.org.
 
-certs.example.com         CAA 0 issue "ca1.example.net"
-certs.example.com         CAA 0 issue "ca2.example.org"
+    certs.example.com         CAA 0 issue "ca1.example.net"
+    certs.example.com         CAA 0 issue "ca2.example.org"
 
 Because the presence of an issue property tag in the relevant resource record
 set for a domain name restricts issuance, domain name owners can use an issue
@@ -342,13 +342,13 @@ For example, the following resource record set requests that no
 certificates be issued for the domain name 'nocerts.example.com' by any
 certificate issuer.
 
-nocerts.example.com       CAA 0 issue ";"
+    nocerts.example.com       CAA 0 issue ";"
 
 An issue property tag where the issuevalue does not match the ABNF
 grammar MUST be treated the same as one specifying an empty issuer. For
 example, the following malformed CAA resource record set forbids issuance:
 
-malformed.example.com     CAA 0 issue "%%%%%"
+    malformed.example.com     CAA 0 issue "%%%%%"
 
 CAA authorizations are additive; thus, the result of specifying both
 an empty issuer and a non-empty issuer is the same as specifying
@@ -365,7 +365,7 @@ accountable.example.com to specify their account number "230123" in each
 of the customer's CAA records using the (CA-defined) "account" parameter,
 it would look like this:
 
-accountable.example.com   CAA 0 issue "ca1.example.net; account=230123"
+    accountable.example.com   CAA 0 issue "ca1.example.net; account=230123"
 
 The semantics of issuer-parameters are determined by the issuer
 alone.
@@ -388,22 +388,22 @@ be ignored when processing a request for that wildcard domain name.
 For example, the following resource record set requests that *only*
 ca1.example.net issue certificates for "wild.example.com" or
 "sub.wild.example.com", and that *only* ca2.example.org issue certificates for
-"*.wild.example.com" or "*.sub.wild.example.com).
+"\*.wild.example.com" or "\*.sub.wild.example.com).
 
-wild.example.com          CAA 0 issue "ca1.example.net"
-wild.example.com          CAA 0 issuewild "ca2.example.org"
+    wild.example.com          CAA 0 issue "ca1.example.net"
+    wild.example.com          CAA 0 issuewild "ca2.example.org"
 
 The following resource record set requests that *only* ca1.example.net issue
 certificates for "wild2.example.com". It also permits ca1.example.net to issue
-certificates "*.wild2.example.com" and "*.sub.wild2.example.com".
+certificates "\*.wild2.example.com" and "\*.sub.wild2.example.com".
 
-wild2.example.com         CAA 0 issue "ca1.example.net"
+    wild2.example.com         CAA 0 issue "ca1.example.net"
 
 The following resource record set requests that *only* ca2.example.org issue
-certificates for "*.wild3.example.com" or "*.sub.wild3.example.com". No issuer
+certificates for "\*.wild3.example.com" or "\*.sub.wild3.example.com". No issuer
 is permitted to issue for "wild3.example.com" or "sub.wild3.example.com".
 
-wild3.example.com         CAA 0 issue "ca2.example.org"
+    wild3.example.com         CAA 0 issue "ca2.example.org"
 
 ##  CAA iodef Property
 
@@ -440,8 +440,8 @@ issue for "new.example.com" (or any other domains for which this is
 the relevant resource record set) unless the issuer has implemented the
 processing rules for the 'tbs' property tag.
 
-new.example.com       CAA 0 issue "ca1.example.net"
-new.example.com       CAA 128 tbs "Unknown"
+    new.example.com       CAA 0 issue "ca1.example.net"
+    new.example.com       CAA 128 tbs "Unknown"
 
 #  Security Considerations
 
