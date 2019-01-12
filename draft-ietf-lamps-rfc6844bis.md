@@ -218,7 +218,7 @@ return "issue example.com"
 
 A CAA resource record contains a single property consisting of a tag-value
 pair. A domain name MAY have multiple CAA RRs associated with it and a
-given property tag MAY be specified more than once.
+given property tag MAY be specified more than once across those RRs.
 
 The RDATA section for a CAA resource record contains one property. A property
 consists of the following:
@@ -273,8 +273,8 @@ characters other than the (lowercase) US-ASCII characters 'a'
 through 'z' and the numbers 0 through 9.
 
 Value:  A sequence of octets representing the property value.
-Property values are encoded as binary values and MAY employ sub-
-formats.
+Property values are encoded as binary values and MAY employ
+sub-formats.
 
 The length of the value field is specified implicitly as the
 remaining length of the enclosing RDATA section.
