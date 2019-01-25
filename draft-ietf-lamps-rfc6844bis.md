@@ -441,7 +441,7 @@ attachment, a Web service [RFC6546], or both:
 
     report.example.com         CAA 0 issue "ca1.example.net"
     report.example.com         CAA 0 iodef "mailto:security@example.com"
-    report.example.com         CAA 0 issue "http://iodef.example.com/"
+    report.example.com         CAA 0 iodef "http://iodef.example.com/"
 
 ## Critical Flag
 
