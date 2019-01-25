@@ -373,7 +373,7 @@ alone.
 ##  CAA issuewild Property
 
 The issuewild property tag has the same syntax and semantics as the issue
-property tag except that they only grant authorization to
+property tag except that it only grants authorization to
 issue certificates that specify a wildcard domain name and issuewild
 properties take precedence over issue properties when specified.
 Specifically:
@@ -400,16 +400,25 @@ certificates "\*.wild2.example.com" and "\*.sub.wild2.example.com".
     wild2.example.com         CAA 0 issue "ca1.example.net"
 
 The following resource record set requests that *only* ca2.example.org issue
-certificates for "\*.wild3.example.com" or "\*.sub.wild3.example.com". No issuer
-is permitted to issue for "wild3.example.com" or "sub.wild3.example.com".
+certificates for "\*.wild3.example.com" or "\*.sub.wild3.example.com". It
+does not permit any issuer to issue for "wild3.example.com" or
+"sub.wild3.example.com".
 
-    wild3.example.com         CAA 0 issue "ca2.example.org"
+    wild3.example.com         CAA 0 issuewild "ca2.example.org"
+    wild3.example.com         CAA 0 issue ";"
+
+The following resource record set requests that *only* ca2.example.org issue
+certificates for "\*.wild3.example.com" or "\*.sub.wild3.example.com". It
+permits any issuer to issue for "wild3.example.com" or "sub.wild3.example.com".
+
+    wild3.example.com         CAA 0 issuewild "ca2.example.org"
 
 ##  CAA iodef Property
 
-The iodef property specifies a means by which an issuer MAY report
-certificate issuance requests or certificate issuance
-for domains in which the property appears in the relevant resource record set.
+The iodef property specifies a means of reporting certificate issue
+requests or cases of certificate issue for domains for which the property
+appears in the relevant resource record set, when those requests or issuances
+violate the security policy of the issuer or the domain name holder.
 
 The Incident Object Description Exchange Format (IODEF) {{!RFC7970}} is
 used to present the incident report in machine-readable form.
@@ -425,6 +434,14 @@ mailto:  The IODEF incident report is reported as a MIME email
 http or https:  The IODEF report is submitted as a Web service
    request to the HTTP address specified using the protocol specified
    in {{!RFC6546}}.
+
+The following resource record set specifies
+that reports may be made by means of email with the IODEF data as an
+attachment, a Web service [RFC6546], or both:
+
+    report.example.com         CAA 0 issue "ca1.example.net"
+    report.example.com         CAA 0 iodef "mailto:security@example.com"
+    report.example.com         CAA 0 issue "http://iodef.example.com/"
 
 ## Critical Flag
 
