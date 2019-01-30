@@ -653,5 +653,5 @@ Certification Authority Restriction Properties registries.
 The authors would like to thank the following people who contributed
 to the design and documentation of this work item: Corey Bonnell, Chris Evans,
 Stephen Farrell, Jeff Hodges, Paul Hoffman, Tim Hollebeek, Stephen Kent, Adam
-Langley, Ben Laurie, James Manager, Chris Palmer, Scott Schmit, Sean Turner, and
+Langley, Ben Laurie, James Manger, Chris Palmer, Scott Schmit, Sean Turner, and
 Ben Wilson.
