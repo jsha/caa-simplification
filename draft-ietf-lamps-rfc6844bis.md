@@ -142,7 +142,7 @@ Resource Record Set (RRSet):  A set of Resource Records of a
    RRs with an RRSet is always the same, but the data may be
    different among RRs in the RRSet.
 
-Relevant Resource Record Set:  A set of CAA Resource Records resulting
+Relevant Resource Record Set (Relevant RRSet):  A set of CAA Resource Records resulting
    from applying the algorithm in Section 4 to a specific Domain Name or
    Wildcard Domain Name.
 
