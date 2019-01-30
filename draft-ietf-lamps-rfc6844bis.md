@@ -12,8 +12,7 @@ author:
  -
     ins: P. Hallam-Baker
     name: Phillip Hallam-Baker
-    org: Comodo Group, Inc
-    email: philliph@comodo.com
+    email: phill@hallambaker.com
  -
     ins: R. Stradling
     name: Rob Stradling
