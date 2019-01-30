@@ -144,13 +144,13 @@ Resource Record Set (RRSet):  A set of Resource Records of a
 
 Relevant Resource Record Set (Relevant RRSet):  A set of CAA Resource Records resulting
    from applying the algorithm in Section 4 to a specific Domain Name or
-   Wildcard Domain Name.
+   Wildcard Name.
 
 Relying Party:  A party that makes use of an application whose
    operation depends on use of a certificate for making a security
    decision.  See {{!RFC5280}}.
 
-Wildcard Domain Name: A Domain Name consisting of a single asterisk
+Wildcard Name: A string consisting of a single asterisk
    character followed by a single full stop character (“\*.”) followed
    by a Fully-Qualified Domain Name.
 
@@ -163,19 +163,19 @@ determines that either (1) the certificate request is consistent with
 the applicable CAA Resource Record set or (2) an exception specified
 in the relevant Certificate Policy or Certification Practices
 Statement applies. If the Relevant RRSet for a Domain Name
-or Wildcard Domain Name contains no Property Tags that restrict issuance
+or Wildcard Name contains no Property Tags that restrict issuance
 (for instance, if it contains only iodef Property Tags, or only Property
 Tags unrecognized by the CA), CAA does not restrict issuance.
 
 A certificate request MAY specify more than one Domain Name and MAY
-specify Wildcard Domain Names.  Issuers MUST verify authorization for all
-the Domain Names and Wildcard Domain Names specified in the request.
+specify Wildcard Names.  Issuers MUST verify authorization for all
+the Domain Names and Wildcard Names specified in the request.
 
 The search for a CAA RRSet climbs the DNS name tree from the
 specified label up to but not including the DNS root '.'
 until a CAA RRSet is found.
 
-Given a request for a specific Domain Name X, or a request for a Wildcard Domain
+Given a request for a specific Domain Name X, or a request for a Wildcard
 Name \*.X, the Relevant Resource Record Set RelevantCAASet(X) is determined as follows:
 
 Let CAA(X) be the RRSet returned by performing a CAA record query for the
@@ -376,16 +376,16 @@ alone.
 
 The issuewild Property Tag has the same syntax and semantics as the issue
 Property Tag except that it only grants authorization to
-issue certificates that specify a Wildcard Domain Name and issuewild
+issue certificates that specify a Wildcard Name and issuewild
 properties take precedence over issue properties when specified.
 Specifically:
 
 issuewild properties MUST be ignored when processing a request for
-a Domain Name (that is, not a Wildcard Domain Name).
+a Domain Name (that is, not a Wildcard Name).
 
 If at least one issuewild Property is specified in the Relevant
-RRSet for a Wildcard Domain Name, all issue properties MUST
-be ignored when processing a request for that Wildcard Domain Name.
+RRSet for a Wildcard Name, all issue properties MUST
+be ignored when processing a request for that Wildcard Name.
 
 For example, the following RRSet requests that *only*
 ca1.example.net issue certificates for "wild.example.com" or
