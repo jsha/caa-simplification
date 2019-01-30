@@ -585,7 +585,7 @@ unknown Resource Record types is NOERROR.
 ## Delegation to Private Nameservers
 
 Some Domain Name administrators make the contents of a subdomain unresolvable on the
-public internet by delegating that subdomain to a nameserver whose IP address is
+public Internet by delegating that subdomain to a nameserver whose IP address is
 private. A CA processing CAA records for such subdomains will receive
 SERVFAIL from its recursive resolver. The CA MAY interpret that as preventing
 issuance. Domain Name administrators wishing to issue certificates for private
