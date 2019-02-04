@@ -315,7 +315,7 @@ The CAA issue Property Value has the following sub-syntax (specified
 in ABNF as per {{!RFC5234}}).
 
 ~~~~~~~~~~
-issuevalue = *WSP [issuer-domain-name *WSP] [";" *WSP [parameters *WSP]]
+issue-value = *WSP [issuer-domain-name *WSP] [";" *WSP [parameters *WSP]]
 
 issuer-domain-name = label *("." label)
 label = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
@@ -346,17 +346,17 @@ Issuer.
 
     nocerts.example.com       CAA 0 issue ";"
 
-An issue Property Tag where the issuevalue does not match the ABNF
+An issue Property Tag where the issue-value does not match the ABNF
 grammar MUST be treated the same as one specifying an empty issuer-domain-name. For
 example, the following malformed CAA RRSet forbids issuance:
 
     malformed.example.com     CAA 0 issue "%%%%%"
 
 CAA authorizations are additive; thus, the result of specifying both
-an empty issuer-domain-name and a non-empty issue-domain-name  is the
+an empty issuer-domain-name and a non-empty issuer-domain-name  is the
 same as specifying just the non-empty issuer-domain-name.
 
-An Issuer MAY choose to specify issuer-parameters that further
+An Issuer MAY choose to specify parameters that further
 constrain the issue of certificates by that Issuer, for example,
 specifying that certificates are to be subject to specific validation
 polices, billed to certain accounts, or issued under specific trust
@@ -369,8 +369,8 @@ it would look like this:
 
     accountable.example.com   CAA 0 issue "ca1.example.net; account=230123"
 
-The semantics of issuer-parameters are determined by the Issuer
-alone.
+The semantics of parameters to the issue Property Tag are determined by
+the Issuer alone.
 
 ##  CAA issuewild Property
 
@@ -396,8 +396,8 @@ ca1.example.net issue certificates for "wild.example.com" or
     wild.example.com          CAA 0 issuewild "ca2.example.org"
 
 The following RRSet requests that *only* ca1.example.net issue
-certificates for "wild2.example.com". It also permits ca1.example.net to issue
-certificates "\*.wild2.example.com" and "\*.sub.wild2.example.com".
+certificates for "wild2.example.com", "\*.wild2.example.com" or
+"\*.sub.wild2.example.com".
 
     wild2.example.com         CAA 0 issue "ca1.example.net"
 
