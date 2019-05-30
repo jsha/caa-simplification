@@ -141,11 +141,11 @@ Resource Record (RR):  A particular entry in the DNS including the
 
 Resource Record Set (RRSet):  A set of Resource Records of a
    particular owner name, class, and type.  The time to live on all
-   RRs with an RRSet is always the same, but the data may be
+   RRs within an RRSet is always the same, but the data may be
    different among RRs in the RRSet.
 
 Relevant Resource Record Set (Relevant RRSet):  A set of CAA Resource Records resulting
-   from applying the algorithm in Section 4 to a specific Domain Name or
+   from applying the algorithm in Section 3 to a specific Domain Name or
    Wildcard Domain Name.
 
 Relying Party:  A party that makes use of an application whose
@@ -297,7 +297,7 @@ Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
    case.
 
 Value:  The value field, expressed as a contiguous set of characters
-   without interior spaces, or as a quoted string.  See the the
+   without interior spaces, or as a quoted string.  See the
    &lt;character-string> format specified in [RFC1035], Section 5.1,
    but note that the value field contains no length byte and is not
    limited to 255 characters.
@@ -392,7 +392,8 @@ be ignored when processing a request for that Wildcard Domain Name.
 For example, the following RRSet requests that *only*
 ca1.example.net issue certificates for "wild.example.com" or
 "sub.wild.example.com", and that *only* ca2.example.org issue certificates for
-"\*.wild.example.com" or "\*.sub.wild.example.com).
+"\*.wild.example.com" or "\*.sub.wild.example.com). Note that this presumes
+there are no CAA RRs for sub.wild.example.com.
 
     wild.example.com          CAA 0 issue "ca1.example.net"
     wild.example.com          CAA 0 issuewild "ca2.example.org"
@@ -555,7 +556,9 @@ attacks to any meaningful degree.
 A Certification Authority could make use of the critical flag to
 trick customers into publishing records that prevent competing
 Certification Authorities from issuing certificates even though the
-customer intends to authorize multiple providers.
+customer intends to authorize multiple providers. This could happen if the
+customers were setting CAA records based on data provided by the CA rather than
+generating those records themselves.
 
 In practice, such an attack would be of minimal effect since any
 competent competitor that found itself unable to issue certificates
@@ -612,7 +615,7 @@ combination with mixed-case queries. Mixed-case queries, also known as DNS 0x20,
 are used by some recursive resolvers to increase resilience against DNS
 poisoning attacks. DNSSEC-signing authoritative resolvers are expected to copy
 the same capitalization from the query into their ANSWER section, but sign the
-response as if they had use all lowercase. In particular, PowerDNS versions
+response as if they had used all lowercase. In particular, PowerDNS versions
 prior to 4.0.4 had this bug.
 
 # Differences versus RFC6844
@@ -633,7 +636,7 @@ This document also includes a "Deployment Considerations" section
 detailing experience gained with practical deployment of CAA enforcement
 among CAs in the WebPKI.
 
-This document clarifies the ABNF grammar for issue and issuewild tags
+This document clarifies the ABNF grammar for the issue and issuewild tags
 and resolves some inconsistencies with the document text. In particular,
 it specifies that parameters are separated with semicolons. It also allows
 hyphens in Property Tags.
