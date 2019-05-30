@@ -124,7 +124,7 @@ DNS Security (DNSSEC):  Extensions to the DNS that provide
    authentication services as specified in {{!RFC4033}}, {{!RFC4034}},
    {{!RFC4035}}, {{!RFC5155}}, and revisions.
 
-Fully-Qualified Domain Name: A Domain Name that includes the labels of all
+Fully-Qualified Domain Name (FQDN): A Domain Name that includes the labels of all
   superior nodes in the Domain Name System.
 
 Issuer:  An entity that issues certificates.  See {{!RFC5280}}.
@@ -145,7 +145,7 @@ Resource Record Set (RRSet):  A set of Resource Records of a
    different among RRs in the RRSet.
 
 Relevant Resource Record Set (Relevant RRSet):  A set of CAA Resource Records resulting
-   from applying the algorithm in Section 3 to a specific Domain Name or
+   from applying the algorithm in Section 3 to a specific Fully-Qualified Domain Name or
    Wildcard Domain Name.
 
 Relying Party:  A party that makes use of an application whose
@@ -164,25 +164,25 @@ exists, a CA MUST NOT issue a certificate unless the CA
 determines that either (1) the certificate request is consistent with
 the applicable CAA Resource Record set or (2) an exception specified
 in the relevant Certificate Policy or Certification Practices
-Statement applies. If the Relevant RRSet for a Domain Name
+Statement applies. If the Relevant RRSet for a Fully-Qualified Domain Name
 or Wildcard Domain Name contains no Property Tags that restrict issuance
 (for instance, if it contains only iodef Property Tags, or only Property
 Tags unrecognized by the CA), CAA does not restrict issuance.
 
-A certificate request MAY specify more than one Domain Name and MAY
+A certificate request MAY specify more than one Fully-Qualified Domain Name and MAY
 specify Wildcard Domain Names.  Issuers MUST verify authorization for all
-the Domain Names and Wildcard Domain Names specified in the request.
+the Fully-Qualified Domain Names and Wildcard Domain Names specified in the request.
 
 The search for a CAA RRSet climbs the DNS name tree from the
 specified label up to but not including the DNS root '.'
 until a CAA RRSet is found.
 
-Given a request for a specific Domain Name X, or a request for a Wildcard Domain
+Given a request for a specific Fully-Qualified Domain Name X, or a request for a Wildcard Domain
 Name \*.X, the Relevant Resource Record Set RelevantCAASet(X) is determined as follows:
 
 Let CAA(X) be the RRSet returned by performing a CAA record query for the
-Domain Name X, according to the lookup algorithm specified in RFC 1034 section
-4.3.2 (in particular chasing aliases). Let Parent(X) be the Domain Name
+Fully-Qualified Domain Name X, according to the lookup algorithm specified in RFC 1034 section
+4.3.2 (in particular chasing aliases). Let Parent(X) be the Fully-Qualified Domain Name
 produced by removing the leftmost label of X.
 
 ~~~~~~~~~~
@@ -194,7 +194,7 @@ RelevantCAASet(domain):
   return Empty
 ~~~~~~~~~~
 
-For example, processing CAA for the Domain Name "X.Y.Z" where there are
+For example, processing CAA for the Fully-Qualified Domain Name "X.Y.Z" where there are
 no CAA records at any level in the tree RelevantCAASet would have the
 following steps:
 
@@ -205,7 +205,7 @@ CAA("Z.")     = Empty; domain = Parent("Z.")     = "."
 return Empty
 ~~~~~~~~~~
 
-Processing CAA for the Domain Name "A.B.C" where there is a CAA record
+Processing CAA for the Fully-Qualified Domain Name "A.B.C" where there is a CAA record
 "issue example.com" at "B.C" would terminate early upon finding the CAA
 record:
 
@@ -220,7 +220,7 @@ return "issue example.com"
 ##  Syntax
 
 A CAA Resource Record contains a single Property consisting of a tag-value
-pair. A Domain Name MAY have multiple CAA RRs associated with it and a
+pair. A Fully-Qualified Domain Name MAY have multiple CAA RRs associated with it and a
 given Property Tag MAY be specified more than once across those RRs.
 
 The RDATA section for a CAA Resource Record contains one Property. A Property
@@ -245,8 +245,8 @@ Flags:  One octet containing the following field:
 
 Bit 0, Issuer Critical Flag:  If the value is set to '1', the
 Property is critical. A Certification Authority MUST NOT issue
-certificates for any Domain Name where the Relevant RRSet for
-that Domain Name contains a CAA critical
+certificates for any FQDN the Relevant RRSet for
+that FQDN contains a CAA critical
 Property for an unknown or unsupported Property Tag.
 
 Note that according to the conventions set out in {{!RFC1035}}, bit 0
@@ -305,10 +305,10 @@ Value:  The value field, expressed as a contiguous set of characters
 ##  CAA issue Property
 
 If the issue Property Tag is present in the Relevant RRSet for a
-Domain Name, it is a request that Issuers
+Fully-Qualified Domain Name, it is a request that Issuers
 
-1. Perform CAA issue restriction processing for the Domain Name, and
-2. Grant authorization to issue certificates containing that Domain Name
+1. Perform CAA issue restriction processing for the FQDN, and
+2. Grant authorization to issue certificates containing that FQDN
     to the holder of the issuer-domain-name
     or a party acting under the explicit authority of the holder of the
     issuer-domain-name.
@@ -328,22 +328,22 @@ tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 value = *(%x21-3A / %x3C-7E)
 ~~~~~~~~~~
 
-For consistency with other aspects of DNS administration, Domain Name
+For consistency with other aspects of DNS administration, FQDN
 values are specified in letter-digit-hyphen Label (LDH-Label) form.
 
 The following CAA record set requests that no
-certificates be issued for the Domain Name 'certs.example.com' by any
+certificates be issued for the FQDN 'certs.example.com' by any
 Issuer other than ca1.example.net or ca2.example.org.
 
     certs.example.com         CAA 0 issue "ca1.example.net"
     certs.example.com         CAA 0 issue "ca2.example.org"
 
 Because the presence of an issue Property Tag in the Relevant RRSet
-for a Domain Name restricts issuance, Domain Name owners can use an issue
+for an FQDN restricts issuance, FQDN owners can use an issue
 Property Tag with no issuer-domain-name to request no issuance.
 
 For example, the following RRSet requests that no
-certificates be issued for the Domain Name 'nocerts.example.com' by any
+certificates be issued for the FQDN 'nocerts.example.com' by any
 Issuer.
 
     nocerts.example.com       CAA 0 issue ";"
@@ -383,7 +383,7 @@ properties take precedence over issue properties when specified.
 Specifically:
 
 issuewild properties MUST be ignored when processing a request for
-a Domain Name (that is, not a Wildcard Domain Name).
+a Fully-Qualified Domain Name (that is, not a Wildcard Domain Name).
 
 If at least one issuewild Property is specified in the Relevant
 RRSet for a Wildcard Domain Name, all issue properties MUST
@@ -423,7 +423,7 @@ permits any Issuer to issue for "wild3.example.com" or "sub.wild3.example.com".
 The iodef Property specifies a means of reporting certificate issue
 requests or cases of certificate issue for domains for which the Property
 appears in the Relevant RRSet, when those requests or issuances
-violate the security policy of the Issuer or the Domain Name holder.
+violate the security policy of the Issuer or the FQDN holder.
 
 The Incident Object Description Exchange Format (IODEF) {{!RFC7970}} is
 used to present the incident report in machine-readable form.
@@ -454,7 +454,7 @@ The critical flag is intended to permit future versions of CAA to
 introduce new semantics that MUST be understood for correct
 processing of the record, preventing conforming CAs that do not
 recognize the new semantics from issuing certificates for the
-indicated Domain Names.
+indicated FQDNs.
 
 In the following example, the Property with a Property Tag of
 'tbs' is flagged as critical.
@@ -468,7 +468,7 @@ processing rules for the 'tbs' Property Tag.
 
 #  Security Considerations
 
-CAA records assert a security policy that the holder of a Domain Name
+CAA records assert a security policy that the holder of an FDQN
 wishes to be observed by Issuers.  The effectiveness of
 CAA records as an access control mechanism is thus dependent on
 observance of CAA constraints by Issuers.
@@ -486,14 +486,14 @@ required.  An Issuer MUST NOT issue certificates if doing so would
 conflict with the Relevant RRSet, irrespective of
 whether the corresponding DNS records are signed.
 
-DNSSEC provides a proof of non-existence for both DNS Domain Names and
-RRSets within Domain Names.  DNSSEC verification thus enables an Issuer to
+DNSSEC provides a proof of non-existence for both DNS Fully-Qualified Domain Names and
+RRSets within FQDNs.  DNSSEC verification thus enables an Issuer to
 determine if the answer to a CAA record query is empty because the RRSet
 is empty or if it is non-empty but the response has been
 suppressed.
 
 Use of DNSSEC allows an Issuer to acquire and archive a proof that
-they were authorized to issue certificates for the Domain Name.
+they were authorized to issue certificates for the FQDN.
 Verification of such archives MAY be an audit requirement to verify
 CAA record processing compliance.  Publication of such archives MAY
 be a transparency requirement to verify CAA record processing
@@ -510,14 +510,14 @@ removal of an embedded trust anchor.
 
 Use of CAA records does not prevent mis-issue by an authorized
 Certification Authority, i.e., a CA that is authorized to issue
-certificates for the Domain Name in question by CAA records.
+certificates for the FQDN in question by CAA records.
 
-Domain Name holders SHOULD verify that the CAs they authorize to
-issue certificates for their Domain Names employ appropriate controls to
+FQDN holders SHOULD verify that the CAs they authorize to
+issue certificates for their FQDNs employ appropriate controls to
 ensure that certificates are issued only to authorized parties within
 their organization.
 
-Such controls are most appropriately determined by the Domain Name
+Such controls are most appropriately determined by the FQDN
 holder and the authorized CA(s) directly and are thus out of scope of
 this document.
 
@@ -525,12 +525,12 @@ this document.
 
 Suppression of the CAA record or insertion of a bogus CAA record
 could enable an attacker to obtain a certificate from an Issuer that
-was not authorized to issue for that Domain Name.
+was not authorized to issue for an affected FQDN.
 
 Where possible, Issuers SHOULD perform DNSSEC validation to detect
 missing or modified CAA record sets.
 
-In cases where DNSSEC is not deployed for a corresponding Domain Name, an
+In cases where DNSSEC is not deployed for a corresponding FQDN, an
 Issuer SHOULD attempt to mitigate this risk by employing appropriate
 DNS security controls.  For example, all portions of the DNS lookup
 process SHOULD be performed against the authoritative name server.
@@ -589,13 +589,13 @@ unknown Resource Record types is NOERROR.
 
 ## Delegation to Private Nameservers
 
-Some Domain Name administrators make the contents of a subdomain unresolvable on the
+Some FQDN administrators make the contents of a subdomain unresolvable on the
 public Internet by delegating that subdomain to a nameserver whose IP address is
 private. A CA processing CAA records for such subdomains will receive
 SERVFAIL from its recursive resolver. The CA MAY interpret that as preventing
-issuance. Domain Name administrators wishing to issue certificates for private
-Domain Names SHOULD use split-horizon DNS with a publicly available nameserver, so
-that CAs can receive a valid, empty CAA response for those Domain Names.
+issuance. FQDN administrators wishing to issue certificates for private
+FQDNs SHOULD use split-horizon DNS with a publicly available nameserver, so
+that CAs can receive a valid, empty CAA response for those FQDNs.
 
 ## Bogus DNSSEC Responses
 
@@ -622,14 +622,14 @@ prior to 4.0.4 had this bug.
 
 This document obsoletes RFC6844. The most important change is to
 the Certification Authority Processing section. RFC6844 specified an
-algorithm that performed DNS tree-climbing not only on the Domain Name
+algorithm that performed DNS tree-climbing not only on the FQDN
 being processed, but also on all CNAMEs and DNAMEs encountered along
 the way. This made the processing algorithm very inefficient when used
-on Domain Names that utilize many CNAMEs, and would have made it difficult
-for hosting providers to set CAA policies on their own Domain Names without
-setting potentially unwanted CAA policies on their customers' Domain Names.
+on FQDNs that utilize many CNAMEs, and would have made it difficult
+for hosting providers to set CAA policies on their own FQDNs without
+setting potentially unwanted CAA policies on their customers' FQDNs.
 This document specifies a simplified processing algorithm that only
-performs tree climbing on the Domain Name being processed, and leaves
+performs tree climbing on the FQDN being processed, and leaves
 processing of CNAMEs and DNAMEs up to the CA's recursive resolver.
 
 This document also includes a "Deployment Considerations" section
