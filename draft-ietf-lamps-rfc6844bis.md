@@ -262,13 +262,12 @@ compliant with this version of the CAA specification MUST clear
 CAA records MUST ignore the value of all reserved flag bits.
 
 Tag Length:  A single octet containing an unsigned integer specifying
-the tag length in octets.  The tag length MUST be at least 1 and
-SHOULD be no more than 15.
+the tag length in octets.  The tag length MUST be at least 1.
 
 Tag:  The Property identifier, a sequence of US-ASCII characters.
 
 Tags MAY contain US-ASCII characters 'a' through 'z', 'A'
-through 'Z', and the numbers 0 through 9.  Tags SHOULD NOT
+through 'Z', and the numbers 0 through 9.  Tags MUST NOT
 contain any other characters.  Matching of tags is case
 insensitive.
 
@@ -293,7 +292,7 @@ Where:
 
 Flags:  Is an unsigned integer between 0 and 255.
 
-Tag:  Is a non-zero sequence of US-ASCII letters and numbers in lower
+Tag:  Is a non-zero-length sequence of US-ASCII letters and numbers in lower
    case.
 
 Value:  The value field, expressed as a contiguous set of characters
@@ -440,6 +439,8 @@ http or https:  The IODEF report is submitted as a Web service
    request to the HTTP address specified using the protocol specified
    in {{!RFC6546}}.
 
+These are the only supported URL schemes.
+
 The following RRSet specifies
 that reports may be made by means of email with the IODEF data as an
 attachment, a Web service [RFC6546], or both:
@@ -562,7 +563,7 @@ generating those records themselves.
 
 In practice, such an attack would be of minimal effect since any
 competent competitor that found itself unable to issue certificates
-due to lack of support for a Property marked critical SHOULD
+due to lack of support for a Property marked critical should
 investigate the cause and report the reason to the customer.  The
 customer will thus discover that they had been deceived.
 
