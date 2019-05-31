@@ -178,7 +178,7 @@ specified label up to but not including the DNS root '.'
 until a CAA RRSet is found.
 
 Given a request for a specific Fully-Qualified Domain Name X, or a request for a Wildcard Domain
-Name \*.X, the Relevant Resource Record Set RelevantCAASet(X) is determined as follows:
+Name \*.X, the Relevant Resource Record Set RelevantCAASet(X) is determined as follows (in pseudocode):
 
 Let CAA(X) be the RRSet returned by performing a CAA record query for the
 Fully-Qualified Domain Name X, according to the lookup algorithm specified in RFC 1034 section
@@ -187,7 +187,7 @@ produced by removing the leftmost label of X.
 
 ~~~~~~~~~~
 RelevantCAASet(domain):
-  for domain is not ".":
+  while domain is not ".":
     if CAA(domain) is not Empty:
       return CAA(domain)
     domain = Parent(domain)
@@ -382,7 +382,7 @@ properties take precedence over issue properties when specified.
 Specifically:
 
 issuewild properties MUST be ignored when processing a request for
-a Fully-Qualified Domain Name (that is, not a Wildcard Domain Name).
+a Fully-Qualified Domain Name that is not a Wildcard Domain Name.
 
 If at least one issuewild Property is specified in the Relevant
 RRSet for a Wildcard Domain Name, all issue properties MUST
@@ -495,8 +495,8 @@ suppressed.
 
 Use of DNSSEC allows an Issuer to acquire and archive a proof that
 they were authorized to issue certificates for the FQDN.
-Verification of such archives MAY be an audit requirement to verify
-CAA record processing compliance.  Publication of such archives MAY
+Verification of such archives may be an audit requirement to verify
+CAA record processing compliance.  Publication of such archives may
 be a transparency requirement to verify CAA record processing
 compliance.
 
@@ -535,13 +535,15 @@ In cases where DNSSEC is not deployed for a corresponding FQDN, an
 Issuer SHOULD attempt to mitigate this risk by employing appropriate
 DNS security controls.  For example, all portions of the DNS lookup
 process SHOULD be performed against the authoritative name server.
-Data cached by third parties MUST NOT be relied on but MAY be used to
+Data cached by third parties MUST NOT be relied on as the sole source of DNS CAA
+information but MAY be used to
 support additional anti-spoofing or anti-suppression controls.
 
 ##  Denial of Service
 
 Introduction of a malformed or malicious CAA RR could in theory
-enable a Denial-of-Service (DoS) attack.
+enable a Denial-of-Service (DoS) attack. This could happen by modification of
+authoritative DNS records or by spoofing inflight DNS responses.
 
 This specific threat is not considered to add significantly to the
 risk of running an insecure DNS service.
@@ -655,7 +657,9 @@ of that term to more clearly define which domains are affected by a given RRset.
 
 IANA is requested to add [[[ RFC Editor: Please replace with this RFC ]]] as
 a reference for the Certification Authority Restriction Flags and
-Certification Authority Restriction Properties registries.
+Certification Authority Restriction Properties registries. IANA is also
+requested to update the CAA TYPE in the DNS Parameters registry with a reference
+to [[[ RFC Editor: Please replace with this RFC ]]].
 
 #  Acknowledgements
 
