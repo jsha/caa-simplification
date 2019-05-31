@@ -657,7 +657,9 @@ of that term to more clearly define which domains are affected by a given RRset.
 
 IANA is requested to add [[[ RFC Editor: Please replace with this RFC ]]] as
 a reference for the Certification Authority Restriction Flags and
-Certification Authority Restriction Properties registries. IANA is also
+Certification Authority Restriction Properties registries, and update references
+to {{!RFC6844}} within those registries to refer to [[[ RFC Editor: Please
+replace with this RFC ]]]. IANA is also
 requested to update the CAA TYPE in the DNS Parameters registry with a reference
 to [[[ RFC Editor: Please replace with this RFC ]]].
 
