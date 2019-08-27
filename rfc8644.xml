@@ -38,10 +38,12 @@
 
     <date year="2019" month="August"/>
 
-<!-- [rfced] Please insert any keywords (beyond those that appear in
-the title) for use on https://www.rfc-editor.org/search. -->
-
-<keyword>example</keyword>
+<keyword>certificate</keyword>
+<keyword>ca</keyword>
+<keyword>pki</keyword>
+<keyword>issue</keyword>
+<keyword>issuance</keyword>
+<keyword>wildcard</keyword>
 
     <abstract>
 <t>The Certification Authority Authorization (CAA) DNS Resource Record
@@ -50,7 +52,7 @@ Authorities (CAs) authorized to issue certificates for that domain name.
 CAA Resource Records allow a public CA to
 implement additional controls to reduce the risk of unintended
 certificate mis-issue.  This document defines the syntax of the CAA
-record and rules for processing CAA records by certificate issuers.</t>
+record and rules for processing CAA records by CAs.</t>
 
 <t>This document obsoletes RFC 6844.</t>
 
@@ -75,22 +77,11 @@ unintended certificate mis-issue.</t>
 <t>Like the TLSA record defined in DNS-Based Authentication of Named
 Entities (DANE) <xref target="RFC6698"/>, CAA records are used as a part of a
 mechanism for checking PKIX <xref target="RFC6698"/> certificate data.  The distinction
-between the two specifications is that CAA records specify an
+between CAA and TLSA is that CAA records specify an
 authorization control to be performed by a certificate issuer before
 issuing a certificate and TLSA records specify a verification
-control to be performed by a relying party after the certificate is
+control to be performed by a Relying Party after the certificate is
 issued.
-
-<!-- [rfced] Section 1:  Does "two specifications" refer to DANE and
-PKIX, or something else?
-
-Original:
- The
- distinction between the two specifications is that CAA records
- specify an authorization control to be performed by a certificate
- issuer before issue of a certificate and TLSA records specify a
- verification control to be performed by a relying party after the
- certificate is issued. -->
 
 </t>
 
@@ -162,15 +153,8 @@ and only when, they appear in all capitals, as shown here.</t>
 
 <t>DNS Security (DNSSEC):  Extensions to the DNS that provide
    authentication services as specified in <xref target="RFC4033"/>, <xref target="RFC4034"/>,
-   <xref target="RFC4035"/>, <xref target="RFC5155"/>, and revisions.
-
-<!-- [rfced] Section 2.2:  Does "revisions" mean "any revisions to
-these specifications," or something else?
-
-Original:
- DNS Security (DNSSEC): Extensions to the DNS that provide
- authentication services as specified in [RFC4033], [RFC4034],
- [RFC4035], [RFC5155], and revisions. -->
+   <xref target="RFC4035"/>, <xref target="RFC5155"/>, and
+   any revisions to these specifications.
 
 </t>
 
@@ -181,7 +165,9 @@ Original:
 of "Fully Qualified Domain Name" (14 instances) and "FQDN"
 (approx. 28 instances) after this point.  As recommended at
 https://www.rfc-editor.org/styleguide/part2/, we will use the
-abbreviation after first expansion unless you object. -->
+abbreviation after first expansion unless you object.
+
+[jsha] Yes, please do. -->
 
 <t>Issuer:  An entity that issues certificates.  See <xref target="RFC5280"/>.</t>
 
@@ -191,7 +177,7 @@ abbreviation after first expansion unless you object. -->
 
 <t>Property Value:  The value portion of a CAA Resource Record.</t>
 
-<t>Relevant Resource Record Set (Relevant RRSet):  A set of CAA 
+<t>Relevant Resource Record Set (Relevant RRset):  A set of CAA 
    Resource Records resulting
    from applying the algorithm in <xref target="relevant-resource-record-set"/> to a specific Fully&nbsp;Qualified Domain Name or
    Wildcard Domain Name.</t>
@@ -204,54 +190,10 @@ abbreviation after first expansion unless you object. -->
    owner name, class, type, time to live, and data, as defined in
    <xref target="RFC1034"/> and <xref target="RFC2181"/>.</t>
 
-<t>Resource Record Set (RRSet):  A set of RRs of a
+<t>Resource Record Set (RRset):  A set of RRs of a
    particular owner name, class, and type.  The time to live on all
-   RRs within an RRSet is always the same, but the data may be
-   different among RRs in the RRSet.</t>
-
-<!-- [rfced] Section 2.2:  As the list in this section was almost in
-alphabetical order, we moved the "Resource Record (RR)" and
-"Resource Record Set (RRSet)" paragraphs so that they appear after
-the "Relying Party" paragraph.  Please let us know any objections.
-
-Original:
-...
- Resource Record (RR): A particular entry in the DNS including the
- owner name, class, type, time to live, and data, as defined in
- [RFC1034] and [RFC2181].
-
- Resource Record Set (RRSet): A set of RRs of a particular owner
- name, class, and type.  The time to live on all RRs within an
- RRSet is always the same, but the data may be different among RRs
- in the RRSet.
-
- Relevant Resource Record Set (Relevant RRSet): A set of CAA Resource
- Records resulting from applying the algorithm in Section 3 to a
- specific Fully-Qualified Domain Name or Wildcard Domain Name.
-
- Relying Party: A party that makes use of an application whose
- operation depends on use of a certificate for making a security
- decision.  See [RFC5280].
-
-Currently:
-...
- o  Relevant Resource Record Set (Relevant RRSet): A set of CAA
-    Resource Records resulting from applying the algorithm in
-    Section 3 to a specific Fully Qualified Domain Name or Wildcard
-    Domain Name.
-
- o  Relying Party: A party that makes use of an application whose
-    operation depends on the use of a certificate for making a
-    security decision.  See [RFC5280].
-
- o  Resource Record (RR): A particular entry in the DNS, including the
-    owner name, class, type, time to live, and data, as defined in
-    [RFC1034] and [RFC2181].
-
- o  Resource Record Set (RRSet): A set of RRs of a particular owner
-    name, class, and type.  The time to live on all RRs within an
-    RRSet is always the same, but the data may be different among RRs
-    in the RRSet. -->
+   RRs within an RRset is always the same, but the data may be
+   different among RRs in the RRset.</t>
 
 <t>Wildcard Domain Name: A domain name consisting of a single asterisk
    character followed by a single "full stop" character ("*.") followed
@@ -263,11 +205,11 @@ Currently:
 <section anchor="relevant-resource-record-set" title="Relevant Resource Record Set">
 
 <t>Before issuing a certificate, a compliant CA MUST check for
-publication of a Relevant RRSet.  If such an RRSet
+publication of a Relevant RRset.  If such an RRset
 exists, a CA MUST&nbsp;NOT issue a certificate unless the CA
 determines that either (1)&nbsp;the certificate request is consistent with
 the applicable CAA RRset or (2)&nbsp;an exception specified
-in the relevant CP or CPS applies. If the Relevant RRSet for a Fully&nbsp;Qualified Domain Name
+in the relevant CP or CPS applies. If the Relevant RRset for a Fully&nbsp;Qualified Domain Name
 or Wildcard Domain Name contains no Property Tags that restrict issuance
 (for instance, if it contains only iodef Property Tags or only Property
 Tags unrecognized by the CA), CAA does not restrict issuance.</t>
@@ -276,22 +218,24 @@ Tags unrecognized by the CA), CAA does not restrict issuance.</t>
 specify Wildcard Domain Names.  Issuers MUST verify authorization for all
 the Fully&nbsp;Qualified Domain Names and Wildcard Domain Names specified in the request.</t>
 
-<t>The search for a CAA RRSet climbs the DNS name tree from the
+<t>The search for a CAA RRset climbs the DNS name tree from the
 specified label up to, but not including, the DNS root '.'
-until a CAA RRSet is found.</t>
+until a CAA RRset is found.</t>
 
 <t>Given a request for a specific Fully Qualified Domain Name X or a request for a Wildcard Domain
 Name *.X, the Relevant RRset RelevantCAASet(X) is determined as follows (in pseudocode):</t>
 
 <t><list>
-<t>Let CAA(X) be the RRSet returned by performing a CAA record query for the
+<t>Let CAA(X) be the RRset returned by performing a CAA record query for the
 Fully&nbsp;Qualified Domain Name X, according to the lookup algorithm
 specified in RFC&nbsp;1034, Section&nbsp;4.3.2 (in particular, chasing
 aliases). Let Parent(X) be the Fully&nbsp;Qualified Domain Name produced by
 removing the leftmost label of X.</t>
 
 <!-- [rfced] Section 3:  Please confirm that the updated text
-addresses Erratum 5065 (https://www.rfc-editor.org/errata/eid5065). -->
+addresses Erratum 5065 (https://www.rfc-editor.org/errata/eid5065).
+
+[jsha] Confirmed. -->
 
 </list></t>
 
@@ -362,23 +306,9 @@ where d is the length of the RDATA section.</t>
  <list style="hanging">
  <t hangText="Bit 0, Issuer Critical Flag:">If the value is set to '1', the
  Property is critical. A CA MUST NOT issue
- certificates for any FQDN if the Relevant RRSet for
+ certificates for any FQDN if the Relevant RRset for
  that FQDN contains a CAA critical
  Property for an unknown or unsupported Property Tag.
-
-<!-- [rfced] Section 4.1:  It appears that the word "if" was missing
-from this sentence.  We added it.  If this is not correct, please
-clarify "for any FQDN the Relevant RRSet for that FQDN."
-
-Original:
- A Certification Authority MUST NOT issue certificates
- for any FQDN the Relevant RRSet for that FQDN contains a CAA critical
- Property for an unknown or unsupported Property Tag.
-
-Currently:
- A CA MUST NOT issue certificates for any
- FQDN if the Relevant RRSet for that FQDN contains a CAA critical
- Property for an unknown or unsupported Property Tag. -->
 
  </t>
 </list></t>
@@ -393,17 +323,7 @@ set, while a value of 128 means that bit 0 is set.</t>
 
 <t>To ensure compatibility with future extensions to CAA, DNS records
 compliant with this version of the CAA specification MUST clear
-(set to "0") all reserved flags bits.
-
-<!-- [rfced] Section 4.1:  Should "flags bits" be "flag bits"
-(per the next sentence) or "Flags bits" (per "the Flags value 1"
-used two paragraphs earlier) here?
-
-Original (the next sentence is included for context):
- To ensure compatibility with future extensions to CAA, DNS records
- compliant with this version of the CAA specification MUST clear (set
- to "0") all reserved flags bits.  Applications that interpret CAA
- records MUST ignore the value of all reserved flag bits. -->
+(set to "0") all reserved flag bits.
 
   Applications that interpret
 CAA records MUST ignore the value of all reserved flag bits.</t>
@@ -430,7 +350,7 @@ Property Values are encoded as binary values and MAY employ
 sub&nbhy;formats.</t>
 </list></t>
 
-<t>The length of the value field is specified implicitly as the
+<t>The length of the Value field is specified implicitly as the
 remaining length of the enclosing RDATA section.</t>
 
 <section anchor="canonical-presentation-format" title="Canonical Presentation Format">
@@ -448,10 +368,10 @@ remaining length of the enclosing RDATA section.</t>
 
 <t hangText="Tag:">A non-zero-length sequence of ASCII letters and numbers in lowercase.</t>
 
-<t hangText="Value:">The value field, expressed as either (1)&nbsp;a contiguous set of characters
+<t hangText="Value:">The Value field, expressed as either (1)&nbsp;a contiguous set of characters
    without interior spaces or (2)&nbsp;a quoted string.  See the
    &lt;character-string&gt; format specified in <xref target="RFC1035"></xref>, Section&nbsp;5.1,
-   but note that the value field contains no length byte and is not
+   but note that the Value field contains no length byte and is not
    limited to 255 characters.</t>
  </list></t>
 
@@ -459,7 +379,7 @@ remaining length of the enclosing RDATA section.</t>
 </section>
 <section anchor="caa-issue-property" title="CAA issue Property">
 
-<t>If the issue Property Tag is present in the Relevant RRSet for a
+<t>If the issue Property Tag is present in the Relevant RRset for a
 Fully&nbsp;Qualified Domain Name, it is a request that Issuers:</t>
 
 <t><list style="numbers">
@@ -486,21 +406,10 @@ tag = (ALPHA / DIGIT) *( *("-") (ALPHA / DIGIT))
 value = *(%x21-3A / %x3C-7E)
 ]]></artwork></figure>
 
-<!-- [rfced] Section 4.2:  This line was too long (73 characters,
-whereas our limit is 72).  We added a carriage return accordingly.
-Please let us know if the line break should be somewhere else.
-
-Original:
- issue-value = *WSP [issuer-domain-name *WSP] [";" *WSP [parameters *WSP]]
-
-Currently:
- issue-value = *WSP [issuer-domain-name *WSP]
-    [";" *WSP [parameters *WSP]] -->
-
 <t>For consistency with other aspects of DNS administration, FQDN
 values are specified in letter-digit-hyphen Label (LDH-Label) form.</t>
 
-<t>The following CAA record set requests that no
+<t>The following CAA RRset requests that no
 certificates be issued for the FQDN 'certs.example.com' by any
 Issuer other than ca1.example.net or ca2.example.org.</t>
 
@@ -509,11 +418,11 @@ certs.example.com         CAA 0 issue "ca1.example.net"
 certs.example.com         CAA 0 issue "ca2.example.org"
 ]]></artwork></figure>
 
-<t>Because the presence of an issue Property Tag in the Relevant RRSet
+<t>Because the presence of an issue Property Tag in the Relevant RRset
 for an FQDN restricts issuance, FQDN owners can use an issue
 Property Tag with no issuer-domain-name to request no issuance.</t>
 
-<t>For example, the following RRSet requests that no
+<t>For example, the following RRset requests that no
 certificates be issued for the FQDN 'nocerts.example.com' by any
 Issuer.</t>
 
@@ -523,7 +432,7 @@ nocerts.example.com       CAA 0 issue ";"
 
 <t>An issue Property Tag where the issue-value does not match the ABNF
 grammar MUST be treated the same as one specifying an empty issuer&nbhy;domain-name. For
-example, the following malformed CAA RRSet forbids issuance:</t>
+example, the following malformed CAA RRset forbids issuance:</t>
 
 <figure><artwork><![CDATA[
 malformed.example.com     CAA 0 issue "%%%%%"
@@ -534,7 +443,18 @@ an empty issuer-domain-name and a non-empty issuer-domain-name  is the
 same as specifying just the non-empty issuer-domain-name.
 
 <!-- [rfced] Section 4.2:  Please confirm that the updated text
-addresses Erratum 5244 (https://www.rfc-editor.org/errata/eid5244). -->
+addresses Erratum 5244 (https://www.rfc-editor.org/errata/eid5244).
+
+[jsha] Confirmed. The text addressing Erratum 5244 is not in Section 4.2
+anymore. It is in Section 3 (Relevant Resource Record Set):
+
+   If the Relevant RRset for a Fully-Qualified Fully Qualified Domain Name or
+   Wildcard Domain Name contains no Property Tags that restrict issuance
+   (for instance, if it contains only iodef Property Tags, Tags or only
+   Property Tags unrecognized by the CA), CAA does not restrict
+   issuance.
+
+-->
 
 </t>
 
@@ -569,10 +489,10 @@ Specifically:</t>
 a Fully&nbsp;Qualified Domain Name that is not a Wildcard Domain Name.</t>
 
 <t>If at least one issuewild Property is specified in the Relevant
-RRSet for a Wildcard Domain Name, each issue Property MUST
+RRset for a Wildcard Domain Name, each issue Property MUST
 be ignored when processing a request for that Wildcard Domain Name.</t>
 
-<t>For example, the following RRSet requests that <spanx style="emph">only</spanx>
+<t>For example, the following RRset requests that <spanx style="emph">only</spanx>
 ca1.example.net issue certificates for "wild.example.com" or
 "sub.wild.example.com", and that <spanx style="emph">only</spanx> ca2.example.org issue certificates for
 "*.wild.example.com" or "*.sub.wild.example.com". Note that this presumes
@@ -583,7 +503,7 @@ wild.example.com          CAA 0 issue "ca1.example.net"
 wild.example.com          CAA 0 issuewild "ca2.example.org"
 ]]></artwork></figure>
 
-<t>The following RRSet requests that <spanx style="emph">only</spanx> ca1.example.net issue
+<t>The following RRset requests that <spanx style="emph">only</spanx> ca1.example.net issue
 certificates for "wild2.example.com", "*.wild2.example.com", or
 "*.sub.wild2.example.com".</t>
 
@@ -591,7 +511,7 @@ certificates for "wild2.example.com", "*.wild2.example.com", or
 wild2.example.com         CAA 0 issue "ca1.example.net"
 ]]></artwork></figure>
 
-<t>The following RRSet requests that <spanx style="emph">only</spanx> ca2.example.org issue
+<t>The following RRset requests that <spanx style="emph">only</spanx> ca2.example.org issue
 certificates for "*.wild3.example.com" or "*.sub.wild3.example.com". It
 does not permit any Issuer to issue for "wild3.example.com" or
 "sub.wild3.example.com".</t>
@@ -601,7 +521,7 @@ wild3.example.com         CAA 0 issuewild "ca2.example.org"
 wild3.example.com         CAA 0 issue ";"
 ]]></artwork></figure>
 
-<t>The following RRSet requests that <spanx style="emph">only</spanx> ca2.example.org issue
+<t>The following RRset requests that <spanx style="emph">only</spanx> ca2.example.org issue
 certificates for "*.wild3.example.com" or "*.sub.wild3.example.com". It
 permits any Issuer to issue for "wild3.example.com" or "sub.wild3.example.com".</t>
 
@@ -614,7 +534,7 @@ wild3.example.com         CAA 0 issuewild "ca2.example.org"
 
 <t>The iodef Property specifies a means of reporting certificate issue
 requests or cases of certificate issue for domains for which the Property
-appears in the Relevant RRSet, when those requests or issuances
+appears in the Relevant RRset, when those requests or issuances
 violate the security policy of the Issuer or the FQDN holder.</t>
 
 <t>The Incident Object Description Exchange Format (IODEF) <xref target="RFC7970"/> is
@@ -624,7 +544,7 @@ used to present the incident report in machine-readable form.</t>
 determines the method used for reporting:</t>
 
 <t><list style="hanging">
-<t hangText="mailto:">The IODEF incident report is reported as a MIME email
+<t hangText="mailto:">The IODEF report is reported as a MIME email
    attachment to an SMTP email that is submitted to the mail address
    specified.  The mail message sent SHOULD contain a brief text
    message to alert the recipient to the nature of the attachment.</t>
@@ -636,7 +556,7 @@ determines the method used for reporting:</t>
 
 <t>These are the only supported URL schemes.</t>
 
-<t>The following RRSet specifies
+<t>The following RRset specifies
 that reports may be made by means of email with the IODEF data as an
 attachment, a web service <xref target="RFC6546"></xref>, or both:</t>
 
@@ -659,7 +579,7 @@ indicated FQDNs.</t>
 'tbs' is flagged as critical.
 Neither the ca1.example.net CA nor any other Issuer is authorized to
 issue for "new.example.com" (or any other domains for which this is
-the Relevant RRSet) unless the Issuer has implemented the
+the Relevant RRset) unless the Issuer has implemented the
 processing rules for the 'tbs' Property Tag.</t>
 
 <figure><artwork><![CDATA[
@@ -686,13 +606,13 @@ certificates.</t>
 
 <t>The use of DNSSEC to authenticate CAA RRs is strongly RECOMMENDED but not
 required.  An Issuer MUST NOT issue certificates if doing so would
-conflict with the Relevant RRSet, irrespective of
+conflict with the Relevant RRset, irrespective of
 whether the corresponding DNS records are signed.</t>
 
 <t>DNSSEC provides a proof of non-existence for both DNS Fully&nbsp;Qualified Domain Names and
-RRSets within FQDNs.  DNSSEC verification thus enables an Issuer to
+RRsets within FQDNs.  DNSSEC verification thus enables an Issuer to
 determine whether the answer to a CAA record query (1)&nbsp;is empty because
-the RRSet is empty or (2)&nbsp;is non-empty but the response has been
+the RRset is empty or (2)&nbsp;is non-empty but the response has been
 suppressed.</t>
 
 <t>The use of DNSSEC allows an Issuer to acquire and archive a proof that
@@ -734,7 +654,7 @@ could enable an attacker to obtain a certificate from an Issuer that
 was not authorized to issue for an affected FQDN.</t>
 
 <t>Where possible, Issuers SHOULD perform DNSSEC validation to detect
-missing or modified CAA record sets.</t>
+missing or modified CAA RRsets.</t>
 
 <t>In cases where DNSSEC is not deployed for a corresponding FQDN, an
 Issuer SHOULD attempt to mitigate this risk by employing appropriate
@@ -797,30 +717,8 @@ DNS query or as a SERVFAIL at a local recursive resolver.</t>
 <t>Some authoritative nameservers respond with REJECTED or NOTIMP when queried
 for an RR type they do not recognize. At least one authoritative
 resolver produces a malformed response (with the QR (Query/Response) bit set to "0") when queried
-for unknown RR types.  Per RFC 1034, the correct response for
-unknown RR types is NOERROR.
-
-<!-- [rfced] Section 6.2:  Please let us know if any updates are
-needed regarding the following:
-
-a) For ease of the reader, we changed "QR bit" to QR (Query/Response)
-bit."  Please let us know if this is incorrect.
-
-b) We could not find any mention of "NOERROR" in RFC 1034 (but we see
-"A name error (NE)").  Will this sentence be clear to readers?
-
-Original:
- At least
- one authoritative resolver produces a malformed response (with the QR
- bit set to 0) when queried for unknown Resource Record types.  Per
- RFC 1034, the correct response for unknown Resource Record types is
- NOERROR.
-
-Currently:
- At least one
- authoritative resolver produces a malformed response (with the QR
- (Query/Response) bit set to "0") when queried for unknown RR types.
- Per RFC 1034, the correct response for unknown RR types is NOERROR. -->
+for unknown RR types.  Per RFC 1034, the correct response RCODE for
+unknown RR types is 0 ("No error condition").
 
 </t>
 
@@ -954,6 +852,9 @@ a) The following terms were used inconsistently in this document.
 We chose to use the latter forms.  Please let us know any objections.
 
  name server (1 instance) / nameserver (5 instances)
+
+ [jsha] This is good.
+
  Tag length field / Tag Length (field)
 
 b) The following terms appear to be used inconsistently in this
@@ -961,13 +862,31 @@ document.  Please let us know which form is preferred.
 
  issuer / Issuer (e.g., we see "certificate issuers" but "Issuer"
    used everywhere else in this document)
+
+  [jsha]: I've changed "certificate issuers" to "CAs"
+
  relying party / Relying Party
+
+  [jsha]: I've changed "relying party" to "Relying Party"
+
  CAA record set / CAA Resource Record set
+
+  [jsha]: I've changed the former to "CAA RRset". Couldn't find
+     examples of the latter in a quick search.
+
  RRSet / RRset (We see that "RRset" is used more often in post-6000
    published RFCs.)
+
+  [jsha]: I've changed the former to "RRset"
+
  value field / Value field
+
+  [jsha]: I've changed the former to "Value"
+
  IODEF incident report / IODEF report (Are these the same
    thing, or two different terms?)
+
+  [jsha]: I've changed the former to "IODEF report"
 
 c) Would you like quoting (single versus double) to be consistent?
 Current quoting is mostly double, but we see (for example)
@@ -976,6 +895,8 @@ Current quoting is mostly double, but we see (for example)
  set to "0"
  '.'
  "."
+
+  [jsha] Yes, please make consistent on double quoting.
 -->
 
 </rfc>
