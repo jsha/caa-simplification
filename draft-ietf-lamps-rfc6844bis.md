@@ -12,6 +12,7 @@ author:
  -
     ins: P. Hallam-Baker
     name: Phillip Hallam-Baker
+    org: Venture Cryptography
     email: phill@hallambaker.com
  -
     ins: R. Stradling
